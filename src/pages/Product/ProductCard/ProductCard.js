@@ -1,21 +1,22 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
-const ProductCard = ({product}) => {
+const ProductCard = ({product, navigation}) => {
     const data = {
         productImage: require("../../../assets/img/pic3.jpg"),
         productName: 'Macbook Pro',
         productPrice: '60.000.000đ'
     };
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('ProductDetail')}>
             <Image
                 source={product.productImage}
-                style={{width: '80%', height: 200, borderRadius: 10, marginTop: 5, borderRadius: 20}}
+                style={{width: '100%', height: 180, borderTopLeftRadius: 15, borderTopRightRadius: 15}}
             />
-            <Text style={{color: 'black',fontSize:17, fontWeight: '300', marginTop: 10}}>{product.productName}</Text>
-            <Text style={{color: 'black',fontSize:15, fontWeight: '200', marginTop: 5}}>{product.productPrice}</Text>
-        </View>
+            <Text style={{color: 'black',fontSize:14, fontWeight: '300', marginTop: 20}}>{product.productName}</Text>
+            <Text style={{color: 'black',fontSize:11, fontWeight: '200', marginTop: 5}}>{product.productPrice}</Text>
+        </TouchableOpacity>
     );
 };
 
@@ -23,15 +24,15 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fef5e2', 
         alignItems:'center' ,
-        width:'49%',
+        width:'48%',
         borderWidth: 0,
-        height: 280,
-        paddingTop: 10,
+        height: 260,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.5,
         shadowRadius: 2,
-        borderRadius: 23
+        borderRadius: 15,
+        marginLeft: 2
     }
 })
 

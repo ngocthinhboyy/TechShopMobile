@@ -3,13 +3,13 @@ import { View,Text } from 'react-native';
 import Carousel, {Pagination}  from 'react-native-snap-carousel';
 import TrendingProductCard from '../../Product/ProductCard/TrendingProductCard';
 
-const TrendingProductCarousel = ({trendingProductList}) => {
+const TrendingProductCarousel = ({trendingProductList, navigation}) => {
     const [index, setIndex] = useState(0);
     const isCarousel = useRef(null);
     
     const renderItem = ({item,index}) => {
         return(
-            <TrendingProductCard product={item}/>
+            <TrendingProductCard product={item} navigation={navigation}/>
         );
     }
     return(

@@ -11,9 +11,14 @@ const OrderStack = ({navigation}) => {
     setStatus(!status);
   };
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}>
+      
       {!status ? (
         <Stack.Screen
+        
           name="OrderScreen"
           children={() => <LoginScreen changeStatus={changeStatus} />}
           options={{title: 'Order'}}

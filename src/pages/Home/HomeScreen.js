@@ -19,8 +19,8 @@ const HomeScreen = ({navigation}) => {
                     <ScrollView contentContainerStyle={styles.scrollView}>
                         <ImageCarousel/>
                         <CategoryList/>
-                        <TrendingProduct/>
-                        <TopPurchasedProduct/>
+                        <TrendingProduct navigation={navigation}/>
+                        <TopPurchasedProduct navigation={navigation}/>
                     </ScrollView>
                 </View>
             </SafeAreaView>

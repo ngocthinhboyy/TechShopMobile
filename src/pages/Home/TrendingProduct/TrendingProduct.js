@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { Text, View } from 'react-native';
 import TrendingProductCarousel from '../TrendingProduct/TrendingProductCarousel';
 
-const TrendingProduct = () => {
+const TrendingProduct = ({navigation}) => {
     const [trendingProductList, setTrendingProductList] = useState([
         {
             productImage: require("../../../assets/img/pic3.jpg"),
@@ -49,7 +49,7 @@ const TrendingProduct = () => {
         <View style={{backgroundColor: '#fcebc6', width:'90%', marginTop: 20}}>
             <Text style={{color: '#e77733',fontSize:20}}>Trending Products</Text>
             <View style={{backgroundColor: 'red', height: 200}}>
-                <TrendingProductCarousel trendingProductList={trendingProductList}/>
+                <TrendingProductCarousel trendingProductList={trendingProductList} navigation ={navigation}/>
             </View>
         </View>
     );

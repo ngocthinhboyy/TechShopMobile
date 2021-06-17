@@ -1,6 +1,8 @@
 import React, {Fragment} from 'react';
 import {View, ScrollView, StyleSheet, SafeAreaView, Text} from 'react-native';
 import HeaderNavbar from '../HeaderNavbar/HeaderNavbar';
+import CategoryList from './CategoryList';
+import ProductList from './ProductList';
 
 const ProductScreen = ({navigation}) => {
   return (
@@ -11,14 +13,14 @@ const ProductScreen = ({navigation}) => {
             <HeaderNavbar/>
         </View>
         <View style={styles.homeScreenContent}>
-            <View style={{flex: 0.2}}>
+            <View style={{flex: 0.25}}>
               <ScrollView contentContainerStyle={styles.scrollViewCategory}>
-                  <Text>aaa</Text>
+                  <CategoryList />
               </ScrollView>
             </View>
-            <View style={{flex: 0.8}}>
+            <View style={{flex: 0.75}}>
               <ScrollView contentContainerStyle={styles.scrollViewProduct}>
-                  <Text>aaa</Text>
+                <ProductList navigation={navigation}/>
               </ScrollView>
             </View>
         </View>
@@ -40,18 +42,20 @@ const styles = StyleSheet.create({
   homeScreenContent: {
       flex: 9.3,
       backgroundColor:'#fcebc6',
-      flexDirection: 'row'
+      flexDirection: 'row',
+      justifyContent: 'space-between'
   },
   scrollViewCategory: {
-      backgroundColor:'#fcf6e8',
+      backgroundColor:'#fcebc6',
       height: 2000
   },
   scrollViewProduct: {
-    backgroundColor:'white'
+    backgroundColor:'#fcebc6'
 },
   container: {
     flex: 1,
-    backgroundColor: '#fcebc6'
+    backgroundColor: '#fcebc6',
+    flexDirection: 'column'
   }
 });
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import ProductCard from '../../Product/ProductCard/ProductCard';
+import TopPurchasedProductCard from '../../Product/ProductCard/TopPurchasedProductCard';
 
-const TopPurchasedProduct = () => {
+const TopPurchasedProduct = ({navigation}) => {
     const data = [
         {
             productImage: require("../../../assets/img/pic3.jpg"),
@@ -98,8 +98,8 @@ const TopPurchasedProduct = () => {
             for (var i=0; i < lengthProductList; i++) {
                 renderResult.push(
                     <View key={i} style={{backgroundColor: '#fcebc6', marginTop: 20, flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <ProductCard product={productList[i]}/>
-                        <ProductCard product={productList[++i]}/>
+                        <TopPurchasedProductCard product={productList[i]} navigation={navigation}/>
+                        <TopPurchasedProductCard product={productList[++i]} navigation={navigation}/>
                     </View>);
             }
         }
@@ -108,14 +108,14 @@ const TopPurchasedProduct = () => {
                 if(i=== lengthProductList - 1){
                     renderResult.push(
                         <View key={i} style={{backgroundColor: '#fcebc6', marginTop: 20, flexDirection: 'row', justifyContent: 'space-between'}}>
-                            <ProductCard product={productList[i]}/>
+                            <TopPurchasedProductCard product={productList[i]} navigation={navigation}/>
                         </View>);
                 }
                 else{
                     renderResult.push(
                         <View key={i} style={{backgroundColor: '#fcebc6', marginTop: 20, flexDirection: 'row', justifyContent: 'space-between'}}>
-                            <ProductCard product={productList[i]}/>
-                            <ProductCard product={productList[++i]}/>
+                            <TopPurchasedProductCard product={productList[i]} navigation={navigation}/>
+                            <TopPurchasedProductCard product={productList[++i]} navigation={navigation}/>
                         </View>);
                 }
             }
