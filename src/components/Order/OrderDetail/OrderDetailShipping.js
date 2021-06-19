@@ -38,7 +38,7 @@ const OrderDetailShipping = ({order}) => {
                         <Icon                   
                             name='check-circle-outline'
                             type='material'
-                            color='#ee8241'
+                            color= {order.statusInvoice === "COMPLETED" ? "black" : "#e77733"}
                             size={35}
                         />
                 </View>
@@ -59,40 +59,40 @@ const OrderDetailShipping = ({order}) => {
                         <Icon                   
                         name='ellipse'
                         type='ionicon'
-                        color='black'
+                        color='#e77733'
                         size={20}
                         />
                         <View
                         style={{
                             width: 94,
                             height: 1,
-                            backgroundColor: 'black'
+                            backgroundColor: '#e77733'
                         }}></View>
                         <Icon                   
                         name='ellipse'
                         type='ionicon'
-                        color='black'
+                        color='#e77733'
                         size={20}
                         />
                         <View
                         style={{
                             width: 98,
                             height: 1,
-                            backgroundColor: 'black'
+                            backgroundColor: order.statusInvoice === "COMPLETED" ? "black" : "black"
                         }}></View>
                         <Icon                   
                         name='ellipse'
                         type='ionicon'
-                        color='black'
+                        color= {order.statusInvoice === "COMPLETED" ? "black" : "#e77733"}
                         size={20}
                         />
                 </View>
             </View>
             <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', marginBottom:20}}>
-                    <Text style={{fontSize: 12, fontWeight: '300', marginTop: 5, marginLeft: 15}}>Pending</Text>
-                    <Text style={{fontSize: 12, fontWeight: '300', marginTop: 5, marginLeft: 14}}>Picking</Text>
-                    <Text style={{fontSize: 12, fontWeight: '300', marginTop: 5}}>Shipping</Text>
-                    <Text style={{fontSize: 12, fontWeight: '300', marginTop: 5, marginRight: 10}}>Completed</Text>
+                    <Text style={{fontSize: 12, fontWeight: '300', marginTop: 5, marginLeft: 15, color: "#e77733"}}>Pending</Text>
+                    <Text style={{fontSize: 12, fontWeight: '300', marginTop: 5, marginLeft: 14, color: "#e77733"}}>Picking</Text>
+                    <Text style={{fontSize: 12, fontWeight: '300', marginTop: 5, color: "#e77733"}}>Shipping</Text>
+                    <Text style={{fontSize: 12, fontWeight: '300', marginTop: 5, marginRight: 10, color: order.statusInvoice === "COMPLETED" ? "black" : "#e77733"}}>Completed</Text>
             </View>
             <View style={{width: '90%', alignItems: 'center', flexDirection: 'row', marginVertical: 10}}>
             <Icon                   
