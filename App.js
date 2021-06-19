@@ -8,10 +8,13 @@
 
 import React from 'react';
 import { RootNavigator } from './src/navigations/RootNavigator';
+import AuthProvider from './src/context/authContext';
 
 
 const App = () => {
-  return <RootNavigator />;
+  return <AuthProvider>
+  <RootNavigator />
+</AuthProvider>;
 };
 
 export default App;

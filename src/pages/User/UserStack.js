@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
 import Stack from '../../navigations/stack-navigator/Stack';
 import LoginScreen from '../Login/LoginScreen';
-import OrderScreen from './OrderScreen';
+import UserScreen from './UserScreen';
 import { AuthContext } from '../../context/authContext';
 
-const OrderStack = ({navigation, route}) => {
-  const {isLoggedIn, changeLoginStatus} = useContext(AuthContext);
+const UserStack = () => {
+    const {isLoggedIn, changeLoginStatus} = useContext(AuthContext);
   return (
     <Stack.Navigator
     screenOptions={{
@@ -14,19 +14,15 @@ const OrderStack = ({navigation, route}) => {
       
       {!isLoggedIn ? (
         <Stack.Screen
-          name="OrderScreen"
+          name="UserScreen"
           children={() => <LoginScreen changeStatus={changeLoginStatus} />}
           options={{title: 'Order'}}
         />
       ) : (
-        <Stack.Screen name="OrderScreen">
-          {props => <OrderScreen {...props} route={route.params} />}
-        </Stack.Screen>
+        <Stack.Screen name="UserScreen" component={UserScreen} />
       )}
     </Stack.Navigator>
   );
 };
 
-OrderStack.propTypes = {};
-
-export default OrderStack;
+export default UserStack;

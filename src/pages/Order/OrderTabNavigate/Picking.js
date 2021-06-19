@@ -1,10 +1,20 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
+import Order from '../../../components/Order/Order';
 
-const Picking = () => {
+const Picking = ({navigation, pickingOrderList}) => {
+    const renderPickingOrderList = orderList => {
+        return orderList.map((order, index) => {
+            return(
+                <Order key={index} order={order} navigation={navigation}/>
+            )
+        })
+    }
     return (
         <View>
-            <Text>aaa</Text>
+            <ScrollView style={{backgroundColor: '#fcebc6', height: '100%'}}>
+                {renderPickingOrderList(pickingOrderList)}
+            </ScrollView>
         </View>
     );
 };

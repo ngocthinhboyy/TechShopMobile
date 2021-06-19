@@ -1,10 +1,18 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
-const Pending = () => {
+import Order from '../../../components/Order/Order';
+const Pending = ({navigation ,pendingOrderList}) => {
+    const renderPendingOrderList = orderList => {
+        return orderList.map((order, index) => {
+            return(
+                <Order key={index} order={order} navigation={navigation}/>
+            )
+        })
+    }
     return (
         <View>
-            <ScrollView style={{backgroundColor: '#fcf6e8', padding: 20, height: '100%'}}>
-                <Text>aaa</Text>
+            <ScrollView style={{backgroundColor: '#fcebc6', height: '100%'}}>
+                {renderPendingOrderList(pendingOrderList)}
             </ScrollView>
         </View>
     );

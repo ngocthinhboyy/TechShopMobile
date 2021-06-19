@@ -3,9 +3,9 @@ import CartStack from '../pages/Cart/CartStack';
 import HomeScreen from '../pages/Home/HomeScreen';
 import OrderStack from '../pages/Order/OrderStack';
 import ProductScreen from '../pages/Product/ProductScreen';
-import UserScreen from '../pages/User/UserScreen';
 import Tab from './stack-navigator/Tab';
 import { Icon } from 'react-native-elements';
+import UserStack from '../pages/User/UserStack';
 
 const TabNavigator = ({navigation}) => {
   return (
@@ -76,7 +76,7 @@ const TabNavigator = ({navigation}) => {
         />
         <Tab.Screen
           name="Me"
-          component={UserScreen}
+          component={UserStack}
       //    options={{title: 'Me'}}
         />
       </Tab.Navigator>

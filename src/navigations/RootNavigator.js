@@ -2,6 +2,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 import React from 'react';
 import LoginScreen from '../pages/Login/LoginScreen';
+import OrderDetail from '../pages/Order/OrderDetail';
 import OrderScreen from '../pages/Order/OrderScreen';
 import ProductDetail from '../pages/Product/ProductDetail/ProductDetail';
 import Stack from './stack-navigator/Stack';
@@ -17,6 +18,7 @@ export const Root = () => {
       <Stack.Screen name="ProductDetail" component={ProductDetail} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Order" component={OrderScreen} options={{}}/>
+      <Stack.Screen name="OrderDetail" component={OrderDetail} options={{}}/>
     </Stack.Navigator>
   );
 };

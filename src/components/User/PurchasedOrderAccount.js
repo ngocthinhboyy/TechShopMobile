@@ -7,7 +7,7 @@ const PurchasedOrderAccount = ({navigation}) => {
         <View style={{width: '85%', margin: 20}}>
             <Text style={{fontSize: 13, fontWeight: '600', color:'#a19791'}}>Purchased orders</Text>
             <View style={{flexDirection: 'row', justifyContent: 'space-between',marginVertical: 10, marginTop: 30, borderBottomWidth: 0.5, paddingBottom: 30, borderBottomColor: '#a19791'}}>
-                <TouchableOpacity style={{alignItems: 'center'}} onPress={() => navigation.navigate('Order',{tabRender: "Completed"})}>
+                <TouchableOpacity style={{alignItems: 'center'}} onPress={() => navigation.navigate('Order', {tabRender: 'Pending'})}>
                     <Icon                   
                     name='receipt-long'
                         type='material'
@@ -19,7 +19,7 @@ const PurchasedOrderAccount = ({navigation}) => {
                     <Text style={{fontSize: 13, fontWeight: '200'}}>Confirmation</Text>
                     
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Order')}>
+                <TouchableOpacity onPress={() => navigation.navigate('Order', {tabRender: 'Picking'})}>
                     <Icon                   
                     name='storefront'
                         type='material'
@@ -28,7 +28,7 @@ const PurchasedOrderAccount = ({navigation}) => {
                     />
                     <Text style={{marginTop: 20, fontSize: 13, fontWeight: '200'}}>Picking (1)</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Order')}>
+                <TouchableOpacity onPress={() => navigation.navigate('Order', {tabRender: 'Shipping'})}>
                     <Icon                   
                     name='local-shipping'
                     type='material-outlined'
@@ -37,7 +37,7 @@ const PurchasedOrderAccount = ({navigation}) => {
                     />
                     <Text style={{marginTop: 20, fontSize: 13, fontWeight: '200'}}>Shipping (3)</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Order')}>
+                <TouchableOpacity onPress={() => navigation.navigate('Order', {tabRender: 'Rating'})}>
                     <Icon                   
                     name='star-outline'
                     type='material'

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { AuthContext } from '../../context/authContext';
 
 const AvatarAccount = () => {
+    const {isLoggedIn, changeLoginStatus} = useContext(AuthContext);
     return (
         <View style={{width: '100%', alignItems: 'center'
         }}>
@@ -27,6 +29,7 @@ const AvatarAccount = () => {
                     name='log-out-outline'
                     type='ionicon'
                     size={30}
+                    onPress={changeLoginStatus}
                 />
                 <Text>Log out</Text>
             </View>
