@@ -37,36 +37,36 @@ export const CategoryListData = [
   {
     iconName: 'phone-portrait-outline',
     iconType: 'ionicon',
-    categoryName: 'Phone',
+    categoryName: 'PC',
   },
   {
     iconName: 'watch-outline',
     iconType: 'ionicon',
-    categoryName: 'Watch',
+    categoryName: 'Monitor',
   },
   {
     iconName: 'headset',
     iconType: 'ionicon',
-    categoryName: 'Headphone',
+    categoryName: 'Audio',
   },
   {
     iconName: 'laptop-mac',
     iconType: 'material',
-    categoryName: 'Laptop',
+    categoryName: 'Screen',
   },
   {
     iconName: 'mouse',
     iconType: 'material',
-    categoryName: 'Mouse',
+    categoryName: 'Hub',
   },
   {
     iconName: 'watch-outline',
     iconType: 'ionicon',
-    categoryName: 'Watch',
+    categoryName: 'Mic',
   },
   {
     iconName: 'headset',
     iconType: 'ionicon',
-    categoryName: 'Headphone',
+    categoryName: 'Earphone',
   },
 ];

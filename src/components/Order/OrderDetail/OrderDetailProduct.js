@@ -41,7 +41,7 @@ const OrderDetailProduct = ({order}) => {
                 flexDirection: 'row'
                 }}>
                 <Image
-                source={require('../../../assets/img/footer1.jpeg')}
+                source={product.image}
                 style={{width: 55, height: 55, marginRight: 10}}
                 />
                 <View style={{width: '83%'}}>

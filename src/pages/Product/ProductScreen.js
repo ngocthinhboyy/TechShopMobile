@@ -5,7 +5,7 @@ import CategoryList from './CategoryList';
 import ProductList from './ProductList';
 
 const ProductScreen = ({navigation}) => {
-  const [category, setCategory] = useState('phone');
+  const [category, setCategory] = useState('Laptop');
   const changeCategory = categoryName => {
     if (categoryName === category) return;
     else setCategory(categoryName);
