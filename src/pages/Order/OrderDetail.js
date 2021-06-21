@@ -1,20 +1,20 @@
-import React, {Fragment, useState, useEffect} from 'react';
+import React, {Fragment, useContext, useEffect, useState} from 'react';
 import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import OrderDetailProduct from '../../components/Order/OrderDetail/OrderDetailProduct';
 import OrderDetailShipping from '../../components/Order/OrderDetail/OrderDetailShipping';
-import {OrderDetailData} from '../../Data/orderDetailData'
+import {OrderContext} from '../../context/orderContext';
 import OrderDetailHeader from './OrderDetailHeader';
 
 const OrderDetail = ({navigation, route}) => {
   const [orderDetail, setOrderDetail] = useState();
+  const {orderData} = useContext(OrderContext);
   useEffect(() => {
-    const orderDetailList = OrderDetailData;
-    
+    const orderDetailList = orderData.detailOrderList;
     let orderDetail = orderDetailList.find(
       order => order.invoiceID === parseInt(route.params.invoiceID),
-    );
-    setOrderDetail(orderDetail);
-  }, []);
+      );
+      setOrderDetail(orderDetail);
+  }, [orderData]);
   return (
     <Fragment>
       <SafeAreaView style={styles.topContainer}></SafeAreaView>

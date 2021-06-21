@@ -1,15 +1,21 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import {View, ScrollView, StyleSheet, SafeAreaView, Text} from 'react-native';
 import HeaderNavbar from '../HeaderNavbar/HeaderNavbar';
 import CategoryList from './CategoryList';
 import ProductList from './ProductList';
 
-const ProductScreen = ({navigation}) => {
-  const [category, setCategory] = useState('Laptop');
+const ProductScreen = ({navigation, route}) => {
+  const [category, setCategory] = useState(() => {
+    return route.params !== undefined ? route.params.categoryName : 'Laptop';
+  });
   const changeCategory = categoryName => {
     if (categoryName === category) return;
     else setCategory(categoryName);
   };
+  useEffect(() => {
+    if (route.params === undefined) return;
+    setCategory(route.params?.categoryName);
+  }, [route.params?.categoryName]);
   return (
     <Fragment>
       <SafeAreaView style={styles.topContainer}></SafeAreaView>

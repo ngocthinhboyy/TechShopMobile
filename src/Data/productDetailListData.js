@@ -1,6 +1,6 @@
 export const ProductDetailListData = [
   {
-    productID: 1,
+    productId: 1,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Console',
@@ -40,7 +40,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 2,
+    productId: 2,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Console',
@@ -80,7 +80,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 3,
+    productId: 3,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Console',
@@ -120,7 +120,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 4,
+    productId: 4,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Console',
@@ -160,7 +160,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 5,
+    productId: 5,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Console',
@@ -200,7 +200,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 6,
+    productId: 6,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Console',
@@ -240,7 +240,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 7,
+    productId: 7,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Console',
@@ -280,7 +280,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 8,
+    productId: 8,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Mouse',
@@ -320,7 +320,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 9,
+    productId: 9,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Mouse',
@@ -360,7 +360,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 10,
+    productId: 10,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Mouse',
@@ -400,7 +400,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 11,
+    productId: 11,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Mouse',
@@ -440,7 +440,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 12,
+    productId: 12,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Mouse',
@@ -480,7 +480,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 13,
+    productId: 13,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Keyboard',
@@ -520,7 +520,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 14,
+    productId: 14,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Keyboard',
@@ -560,7 +560,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 15,
+    productId: 15,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Keyboard',
@@ -600,7 +600,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 16,
+    productId: 16,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Keyboard',
@@ -640,7 +640,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 17,
+    productId: 17,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Keyboard',
@@ -680,7 +680,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 18,
+    productId: 18,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Keyboard',
@@ -720,7 +720,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 19,
+    productId: 19,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Keyboard',
@@ -760,7 +760,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 20,
+    productId: 20,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Watch',
@@ -800,7 +800,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 21,
+    productId: 21,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Watch',
@@ -840,7 +840,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 22,
+    productId: 22,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Watch',
@@ -880,7 +880,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 23,
+    productId: 23,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Watch',
@@ -920,7 +920,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 24,
+    productId: 24,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Watch',
@@ -960,7 +960,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 25,
+    productId: 25,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Watch',
@@ -1000,7 +1000,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 26,
+    productId: 26,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Watch',
@@ -1040,7 +1040,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 27,
+    productId: 27,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Watch',
@@ -1080,7 +1080,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 28,
+    productId: 28,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Watch',
@@ -1120,7 +1120,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 29,
+    productId: 29,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Phone',
@@ -1160,7 +1160,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 30,
+    productId: 30,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Phone',
@@ -1200,7 +1200,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 31,
+    productId: 31,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Phone',
@@ -1240,7 +1240,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 32,
+    productId: 32,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Phone',
@@ -1280,7 +1280,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 33,
+    productId: 33,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Phone',
@@ -1320,7 +1320,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 34,
+    productId: 34,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Phone',
@@ -1360,7 +1360,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 35,
+    productId: 35,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Phone',
@@ -1400,7 +1400,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 36,
+    productId: 36,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Headphone',
@@ -1440,7 +1440,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 37,
+    productId: 37,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Headphone',
@@ -1480,7 +1480,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 38,
+    productId: 38,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Headphone',
@@ -1520,7 +1520,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 39,
+    productId: 39,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Headphone',
@@ -1560,7 +1560,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 40,
+    productId: 40,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Headphone',
@@ -1600,7 +1600,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 41,
+    productId: 41,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Headphone',
@@ -1640,7 +1640,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 42,
+    productId: 42,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Headphone',
@@ -1680,7 +1680,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 43,
+    productId: 43,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Headphone',
@@ -1720,7 +1720,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 44,
+    productId: 44,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Laptop',
@@ -1760,7 +1760,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 45,
+    productId: 45,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Laptop',
@@ -1800,7 +1800,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 46,
+    productId: 46,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Laptop',
@@ -1840,7 +1840,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 47,
+    productId: 47,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Laptop',
@@ -1880,7 +1880,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 48,
+    productId: 48,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Laptop',
@@ -1920,7 +1920,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 49,
+    productId: 49,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Laptop',
@@ -1960,7 +1960,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 50,
+    productId: 50,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Laptop',
@@ -2000,7 +2000,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 51,
+    productId: 51,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Laptop',
@@ -2040,7 +2040,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 52,
+    productId: 52,
     categoryID: 1,
     brandID: 2,
     categoryName: 'WatLaptopch',
@@ -2080,7 +2080,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 53,
+    productId: 53,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Laptop',
@@ -2120,7 +2120,7 @@ export const ProductDetailListData = [
     ],
   },
   {
-    productID: 54,
+    productId: 54,
     categoryID: 1,
     brandID: 2,
     categoryName: 'Laptop',

@@ -1,9 +1,9 @@
-import React, {useState, useContext} from 'react';
+import React, {useContext} from 'react';
+import {AuthContext} from '../../context/authContext';
+import CartProvider from '../../context/cartContext';
 import Stack from '../../navigations/stack-navigator/Stack';
-import CartScreen from './CartScreen';
-import CheckOut from './CheckOut';
 import LoginScreen from '../Login/LoginScreen';
-import { AuthContext } from '../../context/authContext';
+import CartScreen from './CartScreen';
 
 const CartStack = ({navigation}) => {
   const {isLoggedIn, changeLoginStatus} = useContext(AuthContext);

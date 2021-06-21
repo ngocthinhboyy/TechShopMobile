@@ -1,8 +1,8 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useContext, useEffect, useState} from 'react';
 import {SafeAreaView, Text, View} from 'react-native';
 import {Icon} from 'react-native-elements';
-import {OrderListData} from '../../Data/orderListData';
+import {OrderContext} from '../../context/orderContext';
 import Cancelled from './OrderTabNavigate/Cancelled';
 import Completed from './OrderTabNavigate/Completed';
 import Pending from './OrderTabNavigate/Pending';
@@ -13,7 +13,9 @@ import Shipping from './OrderTabNavigate/Shipping';
 const Tab = createMaterialTopTabNavigator();
 
 const OrderScreen = ({navigation, route}) => {
-  const orderList = OrderListData;
+  const {orderData} = useContext(OrderContext);
+  
+  let orderList = orderData.listOrder;
   const [filterOrderList, setFilterOrderList] = useState();
   const filterOrder = orderList => {
     let filterOrders = {
@@ -52,7 +54,7 @@ const OrderScreen = ({navigation, route}) => {
   };
   useEffect(() => {
     filterOrder(orderList);
-  }, [orderList]);
+  }, [orderData]);
 
   useEffect(() => {
     if (route?.tabRender === undefined) return;

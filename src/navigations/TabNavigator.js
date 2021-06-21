@@ -4,82 +4,78 @@ import HomeScreen from '../pages/Home/HomeScreen';
 import OrderStack from '../pages/Order/OrderStack';
 import ProductScreen from '../pages/Product/ProductScreen';
 import Tab from './stack-navigator/Tab';
-import { Icon } from 'react-native-elements';
+import {Icon} from 'react-native-elements';
 import UserStack from '../pages/User/UserStack';
 
 const TabNavigator = ({navigation}) => {
   return (
-    <Tab.Navigator 
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName;
+          let iconType = '';
+          let iconColor = '';
 
-        screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            let iconType = "";
-            let iconColor = "";
-
-            if (route.name === 'Home') {
-                iconName = 'home';
-                iconColor = focused ? '#e77733' : 'black';
-            }
-            else if(route.name == "Product") {
-                iconName = 'text-search';
-                iconType = 'material-community'
-                iconColor = focused ? '#e77733' : 'black';
-            }
-            else if(route.name == "Cart") {
-                iconName = 'shopping-cart';
-                iconColor = focused ? '#e77733' : 'black';
-            }
-            else if(route.name == "Order") {
-                iconName = 'receipt';
-                iconColor = focused ? '#e77733' : 'black';
-            }
-            else if(route.name == "Me") {
-                iconName = 'person';
-                iconColor = focused ? '#e77733' : 'black';
-            }
-            // You can return any component that you like here!
-            return <Icon name={iconName} type= {iconType} color={iconColor} size={26}/>
-            },
-        })}
-
+          if (route.name === 'Home') {
+            iconName = 'home';
+            iconColor = focused ? '#e77733' : 'black';
+          } else if (route.name == 'Product') {
+            iconName = 'text-search';
+            iconType = 'material-community';
+            iconColor = focused ? '#e77733' : 'black';
+          } else if (route.name == 'Cart') {
+            iconName = 'shopping-cart';
+            iconColor = focused ? '#e77733' : 'black';
+          } else if (route.name == 'Order') {
+            iconName = 'receipt';
+            iconColor = focused ? '#e77733' : 'black';
+          } else if (route.name == 'Me') {
+            iconName = 'person';
+            iconColor = focused ? '#e77733' : 'black';
+          }
+          // You can return any component that you like here!
+          return (
+            <Icon name={iconName} type={iconType} color={iconColor} size={26} />
+          );
+        },
+      })}
       tabBarOptions={{
-        labelStyle:{
+        labelStyle: {
           fontWeight: '100',
-          fontSize: 13
+          fontSize: 13,
         },
         style: {
           backgroundColor: '#fcebc6',
-      },
+        },
         activeTintColor: '#e77733',
         inactiveTintColor: 'black',
       }}>
-        <Tab.Screen
-          name="Home"
-          component={HomeScreen}
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
         //   options={{title: 'Home'}}
-        />
-        <Tab.Screen
-          name="Product"
-          component={ProductScreen}
-       //   options={{title: 'Product'}}
-        />
-        <Tab.Screen
-          name="Cart"
-       //   options={{title: 'Cart'}}
-          component={CartStack}
-        />
-        <Tab.Screen
-          name="Order"
-      //    options={{title: 'Order'}}
-          component={OrderStack}
-        />
-        <Tab.Screen
-          name="Me"
-          component={UserStack}
-      //    options={{title: 'Me'}}
-        />
-      </Tab.Navigator>
+      />
+      <Tab.Screen
+        name="Product"
+        component={ProductScreen}
+        //   options={{title: 'Product'}}
+      />
+      <Tab.Screen
+        name="Cart"
+        //   options={{title: 'Cart'}}
+        component={CartStack}
+      />
+      <Tab.Screen
+        name="Order"
+        //    options={{title: 'Order'}}
+        component={OrderStack}
+      />
+      <Tab.Screen
+        name="Me"
+        component={UserStack}
+        //    options={{title: 'Me'}}
+      />
+    </Tab.Navigator>
   );
 };
 

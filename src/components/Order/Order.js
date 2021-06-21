@@ -3,6 +3,7 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {Icon, Button} from 'react-native-elements';
 
 const Order = ({navigation, order}) => {
+ 
   const handlePrice = price => {
     if (price !== undefined) {
       var priceFormat = '';
@@ -206,7 +207,7 @@ const Order = ({navigation, order}) => {
             flexDirection: 'row',
           }}>
           <Image
-            source={order.image}
+            source={order.productImage}
             style={{width: 55, height: 55, marginRight: 10}}
           />
           <View style={{width: '83%'}}>

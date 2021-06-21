@@ -15,7 +15,7 @@ export const OrderListData = [
     totalPrice: 60000000,
     productName: 'Smart Watch Series 2',
     statusProcess: 'Waiting to confirm',
-    image: require('../assets/img/watch1.jpeg'),
+    productImage: require('../assets/img/watch1.jpeg'),
   },
   {
     invoiceID: 2,
@@ -33,7 +33,7 @@ export const OrderListData = [
     totalPrice: 60000000,
     productName: 'IPhone X 256GB Rose Gold',
     statusProcess: 'Confirmed',
-    image: require('../assets/img/iphone1.jpeg'),
+    productImage: require('../assets/img/iphone1.jpeg'),
   },
   {
     invoiceID: 3,
@@ -51,7 +51,7 @@ export const OrderListData = [
     totalPrice: 40000000,
     productName: 'Macbook Pro Retina 13-inch 512GB',
     statusProcess: 'Waiting to confirm',
-    image: require('../assets/img/mac4.jpeg'),
+    productImage: require('../assets/img/mac4.jpeg'),
   },
   {
     invoiceID: 4,
@@ -69,7 +69,7 @@ export const OrderListData = [
     totalPrice: 12000000,
     productName: 'Apple Magic Mouse Pro X',
     statusProcess: 'Picking',
-    image: require('../assets/img/mouse2.jpeg'),
+    productImage: require('../assets/img/mouse2.jpeg'),
   },
   {
     invoiceID: 5,
@@ -87,7 +87,7 @@ export const OrderListData = [
     totalPrice: 9000000,
     productName: 'PlayStation Official',
     statusProcess: 'Ready to ship',
-    image: require('../assets/img/console6.jpeg'),
+    productImage: require('../assets/img/console6.jpeg'),
   },
   {
     invoiceID: 6,
@@ -105,7 +105,7 @@ export const OrderListData = [
     totalPrice: 9000000,
     productName: 'Nitendo Switch',
     statusProcess: 'Shipping',
-    image: require('../assets/img/console2.jpeg'),
+    productImage: require('../assets/img/console2.jpeg'),
   },
   {
     invoiceID: 7,
@@ -123,7 +123,7 @@ export const OrderListData = [
     totalPrice: 9000000,
     productName: 'Xbox Pro',
     statusProcess: 'Deliveried',
-    image: require('../assets/img/console3.jpeg'),
+    productImage: require('../assets/img/console3.jpeg'),
   },
   {
     invoiceID: 8,
@@ -141,7 +141,7 @@ export const OrderListData = [
     totalPrice: 12000000,
     productName: 'Apple keyboard (Space Gray)',
     statusProcess: 'Shipping',
-    image: require('../assets/img/keyboard3.jpeg'),
+    productImage: require('../assets/img/keyboard3.jpeg'),
   },
   {
     invoiceID: 9,
@@ -159,7 +159,7 @@ export const OrderListData = [
     totalPrice: 60000000,
     productName: 'Macbook Pro 2019 15inch 512GB',
     statusProcess: 'Waiting to rate',
-    image: require('../assets/img/mac6.jpeg'),
+    productImage: require('../assets/img/mac6.jpeg'),
   },
   {
     invoiceID: 10,
@@ -177,7 +177,7 @@ export const OrderListData = [
     totalPrice: 9000000,
     productName: 'Headphone Ultra X',
     statusProcess: 'Waiting to rate',
-    image: require('../assets/img/headphone1.jpeg'),
+    productImage: require('../assets/img/headphone1.jpeg'),
   },
   {
     invoiceID: 11,
@@ -195,7 +195,7 @@ export const OrderListData = [
     totalPrice: 40000000,
     productName: 'Macbook Air M1 13-inch 512GB',
     statusProcess: 'Ready to ship',
-    image: require('../assets/img/mac5.jpeg'),
+    productImage: require('../assets/img/mac5.jpeg'),
   },
   {
     invoiceID: 12,
@@ -213,7 +213,7 @@ export const OrderListData = [
     totalPrice: 9000000,
     productName: 'Keychrone K8',
     statusProcess: 'Completed',
-    image: require('../assets/img/keyboard4.jpeg'),
+    productImage: require('../assets/img/keyboard4.jpeg'),
   },
   {
     invoiceID: 13,
@@ -231,7 +231,7 @@ export const OrderListData = [
     totalPrice: 9000000,
     productName: 'Keyboard Newmen',
     statusProcess: 'Completed',
-    image: require('../assets/img/keyboard1.jpeg'),
+    productImage: require('../assets/img/keyboard1.jpeg'),
   },
   {
     invoiceID: 14,
@@ -249,7 +249,7 @@ export const OrderListData = [
     totalPrice: 40000000,
     productName: 'Macbook Air 2018 13-inch 512GB',
     statusProcess: 'Cancelled',
-    image: require('../assets/img/mac7.jpeg'),
+    productImage: require('../assets/img/mac7.jpeg'),
   },
   {
     invoiceID: 15,
@@ -267,6 +267,6 @@ export const OrderListData = [
     totalPrice: 9000000,
     productName: 'IPhone X 32GB Rose Gold',
     statusProcess: 'Cancelled',
-    image: require('../assets/img/iphone4.jpeg'),
+    productImage: require('../assets/img/iphone4.jpeg'),
   },
 ];

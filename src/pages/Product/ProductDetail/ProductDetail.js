@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useContext, useRef} from 'react';
 import {
   View,
   Text,
@@ -11,12 +11,27 @@ import HeaderProductDetail from './HeaderProductDetail';
 import ProductImageCarousel from './ProductImageCarousel';
 import {Icon, Button} from 'react-native-elements';
 import {ProductDetailListData} from '../../../Data/productDetailListData';
+import {CartContext} from '../../../context/cartContext';
 
 const ProductDetail = ({navigation, route}) => {
+  const addingTimeoutRef = useRef(null);
+  const {addToCart} = useContext(CartContext);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [count, setCount] = useState(1);
   const productList = [...ProductDetailListData];
   const getDetailedProduct = (id, productList) => {
-    return productList.find(product => product.productID === parseInt(id));
+    return productList.find(product => product.productId === parseInt(id));
+  };
+  const addProductToCart = product => {
+    if (isDisabled) return;
+    setIsDisabled(true);
+    addToCart(product);
+    if (addingTimeoutRef.current) {
+      clearTimeout(addingTimeoutRef.current);
+    }
+    addingTimeoutRef.current = setTimeout(() => {
+      setIsDisabled(false);
+    }, 500);
   };
 
   const product = getDetailedProduct(route.params.productId, productList);
@@ -133,7 +148,7 @@ const ProductDetail = ({navigation, route}) => {
         </View>
         <View style={styles.homeScreenContent}>
           <ScrollView contentContainerStyle={styles.scrollView}>
-            <ProductImageCarousel images={product.images}/>
+            <ProductImageCarousel images={product.images} />
             <View style={{alignItems: 'flex-start', width: '90%'}}>
               <Text style={{fontSize: 25, fontWeight: '500'}}>
                 {product.productName}
@@ -231,11 +246,27 @@ const ProductDetail = ({navigation, route}) => {
                 </View>
                 <Button
                   icon={
-                    <Icon name="add-shopping-cart" size={20} color="white" />
+                    !isDisabled ? (
+                      <Icon name="add-shopping-cart" size={20} color="white" />
+                    ) : null
                   }
-                  title="  Add to Cart"
+                  title={!isDisabled ? '  Add to Cart' : 'Added'}
                   titleStyle={{fontSize: 15, fontWeight: '300'}}
-                  buttonStyle={{backgroundColor: '#e77733', marginRight: 20}}
+                  buttonStyle={
+                    !isDisabled
+                      ? {backgroundColor: '#e77733', marginRight: 20}
+                      : {backgroundColor: 'rgb(0,153,0)', marginRight: 20}
+                  }
+                  onPress={() =>
+                    addProductToCart({
+                      productId: product.productId,
+                      productImage: product.images[0].imgSrc,
+                      productName: product.productName,
+                      productPrice: product.productPrice,
+                      productCategory: product.categoryName,
+                      quantity: count,
+                    })
+                  }
                 />
               </View>
             </View>
