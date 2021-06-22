@@ -12,6 +12,7 @@ import EditShippingInfo from '../pages/User/EditShippingInfo';
 import City from '../pages/User/City';
 import District from '../pages/User/District';
 import Ward from '../pages/User/Ward';
+import EditNotifications from '../pages/User/EditNotifications';
 
 export const Root = () => {
   return (
@@ -29,6 +30,7 @@ export const Root = () => {
       <Stack.Screen name="City" component={City} />
       <Stack.Screen name="District" component={District} />
       <Stack.Screen name="Ward" component={Ward} />
+      <Stack.Screen name="EditNotifications" component={EditNotifications} />
     </Stack.Navigator>
   );
 };

@@ -25,7 +25,7 @@ const Category = ({category, navigation}) => {
   } else if (category === 'monitor') {
     iconName = 'connected-tv';
     iconType = 'material';
-    categoryName = 'Laptop';
+    categoryName = 'Monitor';
   } else if (category === 'laptop') {
     iconName = 'laptop-mac';
     iconType = 'material';

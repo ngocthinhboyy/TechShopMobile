@@ -1,5 +1,5 @@
 import React, { Fragment, useContext } from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
+import { SafeAreaView, ScrollView, View, Text } from 'react-native';
 import BuyCart from '../../components/Cart/BuyCart';
 import HeaderCart from '../../components/Cart/HeaderCart';
 import ProductListCard from '../../components/Cart/ProductListCard';

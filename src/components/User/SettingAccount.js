@@ -27,13 +27,13 @@ const SettingAccount = ({navigation}) => {
                     type='material'
                 />
             </TouchableOpacity>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between',marginVertical: 10, borderBottomWidth: 0.2, paddingBottom: 10, borderBottomColor: '#a19791'}}>
+            <TouchableOpacity onPress={() => {navigation.navigate("EditNotifications")}} style={{flexDirection: 'row', justifyContent: 'space-between',marginVertical: 10, borderBottomWidth: 0.2, paddingBottom: 10, borderBottomColor: '#a19791'}}>
                 <Text style={{fontSize: 17, fontWeight: '300'}}>Notifications</Text>
                 <Icon                   
                  name='notifications-outline'
                     type='ionicon'
                 />
-            </View>
+            </TouchableOpacity>
             <View style={{flexDirection: 'row', justifyContent: 'space-between',marginVertical: 10, borderBottomWidth: 0.2, paddingBottom: 10, borderBottomColor: '#a19791'}}>
                 <Text style={{fontSize: 17, fontWeight: '300'}}>Help centre</Text>
                 <Icon                   

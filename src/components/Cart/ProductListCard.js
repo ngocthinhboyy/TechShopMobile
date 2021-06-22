@@ -30,8 +30,40 @@ const ProductListCard = ({productCartList, navigation}) => {
      </View>)
       })
   }
+  const renderCountProduct = productList => {
+    if(productList.length === 0) {
+        return(
+          <View style={{width: '90%',justifyContent:'center', paddingHorizontal:10, marginTop: 50, alignItems:'center'}}>
+                  <Icon
+                  name="shopping-bag"
+                  type="material"
+                  size={130}
+                  color= '#e77733'
+                  />
+                <View style={{flexDirection:'row', alignItems: 'center', marginTop: 30}}>
+                    <Icon
+                    name="search-outline"
+                    type="ionicon"
+                    size={30}
+                    color= '#e77733'
+                    />
+                    <Text style={{fontSize: 18, fontWeight:'300', fontStyle:'italic', marginLeft: 5, color: '#e77733'}}>You have no items in your shopping cart</Text>
+                </View>
+          
+        </View>
+        )
+    }
+    else{
+      return(
+        <View style={{width: '90%', paddingHorizontal:10, marginTop: 30}}>
+        <Text style={{fontSize: 17, color:'#e77733', fontWeight:'600'}}>All ({productList.length})</Text>
+      </View>
+      )
+    }
+  }
   return (
-    <View style={{width: '100%'}}>
+    <View style={{width: '100%', alignItems:'center'}}>
+      {renderCountProduct(productCartList)}
         {renderProductCart(productCartList)}
     </View>
   );
