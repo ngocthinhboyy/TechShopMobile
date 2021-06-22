@@ -10,7 +10,7 @@ const EditShippingInfo = ({navigation}) => {
             <SafeAreaView style={{backgroundColor: '#fcebc6'}}></SafeAreaView>
             <SafeAreaView style={{backgroundColor: '#fcebc6'}}>
                 <HeaderEdit navigation={navigation}/>
-                <EditShipping />
+                <EditShipping navigation={navigation}/>
             </SafeAreaView>
         </Fragment>
     );

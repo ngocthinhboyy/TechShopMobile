@@ -9,6 +9,9 @@ import Stack from './stack-navigator/Stack';
 import TabNavigator from './TabNavigator';
 import EditPersonalInfo from '../pages/User/EditPersonalInfo';
 import EditShippingInfo from '../pages/User/EditShippingInfo';
+import City from '../pages/User/City';
+import District from '../pages/User/District';
+import Ward from '../pages/User/Ward';
 
 export const Root = () => {
   return (
@@ -23,6 +26,9 @@ export const Root = () => {
       <Stack.Screen name="OrderDetail" component={OrderDetail} options={{}}/>
       <Stack.Screen name="EditPersonalInfo" component={EditPersonalInfo} />
       <Stack.Screen name="EditShippingInfo" component={EditShippingInfo} />
+      <Stack.Screen name="City" component={City} />
+      <Stack.Screen name="District" component={District} />
+      <Stack.Screen name="Ward" component={Ward} />
     </Stack.Navigator>
   );
 };

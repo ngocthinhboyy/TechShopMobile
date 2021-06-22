@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Input, Switch, Icon } from 'react-native-elements';
 
-const EditShipping = () => {
+const EditShipping = ({navigation}) => {
     return (
         <View style={{width: '100%', marginVertical: 30, height: '100%'}}>
             <View style={{width: '100%',alignItems: 'center'}}>
@@ -39,7 +39,7 @@ const EditShipping = () => {
                 </View>
                 <View style={{width: '90%', marginVertical: 10, flexDirection: 'row', justifyContent:'space-between', alignItems: 'center'}}>
                     <Text style={{fontSize: 15, fontWeight: '400'}}>City</Text>
-                    <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <TouchableOpacity onPress={()  => {navigation.navigate("City")}} style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                         <Text>TP. Hồ Chí Minh</Text>
                         <Text style={{marginLeft: 10, fontSize: 20, marginBottom: 3, color: 'gray'}}>{'>'}</Text>
                     </TouchableOpacity>
@@ -47,7 +47,7 @@ const EditShipping = () => {
                 <View style={{width: '100%', height: 0.3, backgroundColor: '#a19791', marginBottom: 5}}></View>
                 <View style={{width: '90%', marginVertical: 10, flexDirection: 'row', justifyContent:'space-between', alignItems: 'center'}}>
                     <Text style={{fontSize: 15, fontWeight: '400'}}>District</Text>
-                    <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <TouchableOpacity onPress={()  => {navigation.navigate("District")}} style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                         <Text>Quận 9</Text>
                         <Text style={{marginLeft: 8, fontSize: 20, marginBottom: 3, color: 'gray'}}>{'>'}</Text>
                     </TouchableOpacity>
@@ -55,7 +55,7 @@ const EditShipping = () => {
                 <View style={{width: '100%', height: 0.3, backgroundColor: '#a19791', marginBottom: 5}}></View>
                 <View style={{width: '90%', marginVertical: 10, flexDirection: 'row', justifyContent:'space-between', alignItems: 'center'}}>
                     <Text style={{fontSize: 15, fontWeight: '400'}}>Ward</Text>
-                    <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <TouchableOpacity  onPress={()  => {navigation.navigate("Ward")}} style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                         <Text>Phường Tăng Nhơn Phú B</Text>
                         <Text style={{marginLeft: 8, fontSize: 20, marginBottom: 3, color: 'gray'}}>{'>'}</Text>
                     </TouchableOpacity>
