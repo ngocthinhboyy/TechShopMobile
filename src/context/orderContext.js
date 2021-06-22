@@ -8,6 +8,14 @@ const OrderProvider = ({children}) => {
     listOrder: OrderListData,
     detailOrderList: OrderDetailData,
   });
+  const [quantity, setQuantity] = useState({
+    pending: 3,
+    picking: 3,
+    shipping: 3,
+    rating: 2,
+    completed: 2,
+    cancelled: 2,
+  });
   const placeOrder = payload => {
     let newOrderData = {...orderData};
 
@@ -32,9 +40,78 @@ const OrderProvider = ({children}) => {
     );
     newOrderData.detailOrderList.push(newDetailOrder);
     setOrderData(newOrderData);
+    let newQuantity = {
+      pending: quantity.pending + 1,
+    };
+    setQuantity({...quantity, ...newQuantity});
   };
+  const updateStatusOrder = (invoiceID, status) => {
+    let newStatus;
+    let newOrderData = {...orderData};
+    switch (status) {
+      case 'PENDING':
+        newStatus = 'CANCELLED';
+        newStatusProcess = 'Cancelled';
+        let newQuantity = {
+          pending: quantity.pending - 1,
+          cancelled: quantity.cancelled + 1,
+        };
+        setQuantity({...quantity, ...newQuantity});
+        break;
+      case 'SHIPPING':
+        newStatus = 'COMPLETED';
+        newStatusProcess = 'Completed';
+        newQuantity = {
+          shipping: quantity.shipping - 1,
+          completed: quantity.completed + 1,
+        };
+        setQuantity({...quantity, ...newQuantity});
+        break;
+      case 'COMPLETED':
+        newStatus = 'REMOVE';
+        newQuantity = {
+          completed: quantity.completed - 1,
+        };
+        setQuantity({...quantity, ...newQuantity});
+        break;
+      case 'CANCELLED':
+        newStatus = 'PENDING';
+        newStatusProcess = 'Waiting to confirm';
+        newQuantity = {
+          pending: quantity.pending + 1,
+          cancelled: quantity.cancelled - 1,
+        };
+        setQuantity({...quantity, ...newQuantity});
+        break;
+    }
+    for (let index = 0; index < newOrderData.listOrder.length; index++) {
+      if (parseInt(invoiceID) === newOrderData.listOrder[index].invoiceID) {
+        if (status === 'COMPLETED') newOrderData.listOrder.splice(index, 1);
+        else {
+          newOrderData.listOrder[index].statusInvoice = newStatus;
+          newOrderData.listOrder[index].statusProcess = newStatusProcess;
+        }
+        break;
+      }
+    }
+    for (let index = 0; index < newOrderData.detailOrderList.length; index++) {
+      if (
+        parseInt(invoiceID) === newOrderData.detailOrderList[index].invoiceID
+      ) {
+        if (status === 'COMPLETED')
+          newOrderData.detailOrderList.splice(index, 1);
+        else {
+          newOrderData.detailOrderList[index].statusInvoice = newStatus;
+        }
+        break;
+      }
+    }
+    setOrderData(newOrderData);
+  };
+
   return (
-    <OrderContext.Provider value={{orderData, placeOrder}}>
+    <OrderContext.Provider
+      value={{orderData, quantity, placeOrder, updateStatusOrder}}>
       {children}
     </OrderContext.Provider>
   );

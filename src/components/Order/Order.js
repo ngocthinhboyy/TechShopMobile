@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {Icon, Button} from 'react-native-elements';
+import {OrderContext} from '../../context/orderContext';
 
 const Order = ({navigation, order}) => {
- 
+  const {updateStatusOrder} = useContext(OrderContext);
   const handlePrice = price => {
     if (price !== undefined) {
       var priceFormat = '';
@@ -38,7 +39,6 @@ const Order = ({navigation, order}) => {
             <Button
               title="Cancel Order"
               titleStyle={{fontSize: 12, fontWeight: '400', color: 'red'}}
-              
               buttonStyle={{
                 height: 35,
                 width: 100,
@@ -46,7 +46,10 @@ const Order = ({navigation, order}) => {
                 backgroundColor: 'white',
                 height: 35,
                 borderColor: 'red',
-                borderWidth: 0.5
+                borderWidth: 0.5,
+              }}
+              onPress={() => {
+                updateStatusOrder(order.invoiceID, order.statusInvoice);
               }}
             />
           </View>
@@ -66,14 +69,18 @@ const Order = ({navigation, order}) => {
             </Text>
             <Button
               title="Contact Us"
-              titleStyle={{fontSize: 12, fontWeight: '400', color: 'rgb(0, 153, 0)'}}
+              titleStyle={{
+                fontSize: 12,
+                fontWeight: '400',
+                color: 'rgb(0, 153, 0)',
+              }}
               buttonStyle={{
                 backgroundColor: 'white',
                 height: 35,
                 width: 90,
                 borderRadius: 5,
                 borderWidth: 0.5,
-                borderColor: 'rgb(0, 153, 0)'
+                borderColor: 'rgb(0, 153, 0)',
               }}
             />
           </View>
@@ -93,14 +100,21 @@ const Order = ({navigation, order}) => {
             </Text>
             <Button
               title="Order Received"
-              titleStyle={{fontSize: 12, fontWeight: '400', color: 'rgb(0, 153, 0)'}}
+              titleStyle={{
+                fontSize: 12,
+                fontWeight: '400',
+                color: 'rgb(0, 153, 0)',
+              }}
               buttonStyle={{
                 backgroundColor: 'white',
                 height: 35,
                 width: 110,
                 borderRadius: 5,
                 borderColor: 'rgb(0, 153, 0)',
-                borderWidth: 0.5
+                borderWidth: 0.5,
+              }}
+              onPress={() => {
+                updateStatusOrder(order.invoiceID, order.statusInvoice);
               }}
             />
           </View>
@@ -120,14 +134,18 @@ const Order = ({navigation, order}) => {
             </Text>
             <Button
               title="Rating"
-              titleStyle={{fontSize: 12, fontWeight: '400', color: 'rgb(0, 153, 0)'}}
+              titleStyle={{
+                fontSize: 12,
+                fontWeight: '400',
+                color: 'rgb(0, 153, 0)',
+              }}
               buttonStyle={{
                 backgroundColor: 'white',
                 height: 35,
                 width: 70,
                 borderRadius: 5,
                 borderColor: 'rgb(0, 153, 0)',
-                borderWidth: 0.5
+                borderWidth: 0.5,
               }}
             />
           </View>
@@ -154,7 +172,10 @@ const Order = ({navigation, order}) => {
                 width: 80,
                 borderRadius: 5,
                 borderColor: 'red',
-                borderWidth: 0.5
+                borderWidth: 0.5,
+              }}
+              onPress={() => {
+                updateStatusOrder(order.invoiceID, order.statusInvoice);
               }}
             />
           </View>
@@ -174,14 +195,21 @@ const Order = ({navigation, order}) => {
             </Text>
             <Button
               title="Buy Again"
-              titleStyle={{fontSize: 12, fontWeight: '400', color:'rgb(0, 153, 0)'}}
+              titleStyle={{
+                fontSize: 12,
+                fontWeight: '400',
+                color: 'rgb(0, 153, 0)',
+              }}
               buttonStyle={{
                 backgroundColor: 'white',
                 height: 35,
                 width: 80,
                 borderRadius: 5,
                 borderColor: 'rgb(0, 153, 0)',
-                borderWidth: 0.5
+                borderWidth: 0.5,
+              }}
+              onPress={() => {
+                updateStatusOrder(order.invoiceID, order.statusInvoice);
               }}
             />
           </View>

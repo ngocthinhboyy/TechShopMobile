@@ -23,7 +23,7 @@ const ProductListCard = ({productCartList, navigation}) => {
   const renderProductCart = (productList) => {
       return productList.map( (product, index) => {
           return (<View key={index} style={{width: '100%', alignItems: 'center'}}>
-          <ProductCart product={product}/>
+          <ProductCart product={product} navigation={navigation}/>
           {index !== productList.length -1  ?
           <View style={{width: '50%', height: 0.5, backgroundColor: '#a19791', marginVertical: 10}}>
           </View> : <View></View>}

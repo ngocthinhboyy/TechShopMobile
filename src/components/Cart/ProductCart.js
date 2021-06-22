@@ -114,7 +114,12 @@ const ProductCart = ({product, navigation}) => {
             justifyContent: 'space-between',
             marginLeft: 10,
           }}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('ProductDetail', {
+                productId: product.productId,
+              });
+            }}>
             <Text
               style={{
                 color: 'rgb(0, 153, 0)',

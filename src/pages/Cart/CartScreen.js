@@ -1,10 +1,10 @@
-import React, { Fragment, useContext } from 'react';
-import { SafeAreaView, ScrollView, View, Text } from 'react-native';
+import React, {Fragment, useContext} from 'react';
+import {SafeAreaView, ScrollView, View, Text} from 'react-native';
 import BuyCart from '../../components/Cart/BuyCart';
 import HeaderCart from '../../components/Cart/HeaderCart';
 import ProductListCard from '../../components/Cart/ProductListCard';
 import ShippingInfoCart from '../../components/Cart/ShippingInfoCart';
-import { CartContext } from '../../context/cartContext';
+import {CartContext} from '../../context/cartContext';
 const CartScreen = ({navigation}) => {
   const {cartData} = useContext(CartContext);
   const caculateTotalPrice = productList => {
@@ -30,7 +30,10 @@ const CartScreen = ({navigation}) => {
             style={{width: '100%'}}
             contentContainerStyle={{alignItems: 'center'}}>
             <ShippingInfoCart />
-            <ProductListCard productCartList={cartData} />
+            <ProductListCard
+              productCartList={cartData}
+              navigation={navigation}
+            />
           </ScrollView>
         </View>
         <View
