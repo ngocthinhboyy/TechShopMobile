@@ -2,9 +2,10 @@ import React from 'react';
 import {Text} from 'react-native';
 import { Icon } from 'react-native-elements';
 
-const ShoppingCart = () => {
+const ShoppingCart = ({navigation}) => {
     return (
         <Icon
+        onPress = {() => {navigation.navigate("Cart")}}
         name='shopping-cart'
         color='black' />
     );

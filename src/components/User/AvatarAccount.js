@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { AuthContext } from '../../context/authContext';
 
-const AvatarAccount = () => {
+const AvatarAccount = ({navigation}) => {
     const {isLoggedIn, changeLoginStatus} = useContext(AuthContext);
     return (
         <View style={{width: '100%', alignItems: 'center'
@@ -19,10 +19,10 @@ const AvatarAccount = () => {
                 color='black'
                 size={65}
             />
-                <View style={{marginLeft: 15, marginTop: 9}}>
+                <TouchableOpacity onPress={() => {navigation.navigate("EditPersonalInfo")}} style={{marginLeft: 15, marginTop: 9}}>
                     <Text style={{fontSize: 20, fontWeight: 'bold', marginBottom: 4, letterSpacing: 1}}>Thịnh</Text>
                     <Text style={{fontSize: 12, fontWeight: '300', color:'#ee8241', letterSpacing: 1.5}}>Show Profile</Text>
-                </View>
+                </TouchableOpacity>
             </View>
             <View>
                 <Icon

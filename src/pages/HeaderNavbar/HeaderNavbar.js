@@ -5,14 +5,14 @@ import Search from '../../components/HeaderNavbar/Search';
 import ShoppingCart from '../../components/HeaderNavbar/ShoppingCart';
 
 
-const HeaderNavbar = () => {
+const HeaderNavbar = ({navigation}) => {
     return (
         <View style={styles.container}>
           <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor:'#fcebc6'}}>
-            <Logo/>
+            <Logo navigation={navigation}/>
             <Search/>
           </View>
-          <ShoppingCart/>
+          <ShoppingCart navigation={navigation}/>
         </View>
     );
 };

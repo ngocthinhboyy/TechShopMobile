@@ -1,18 +1,18 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-const SettingAccount = () => {
+const SettingAccount = ({navigation}) => {
     return (
         <View style={{width: '85%'}}>
             <Text style={{fontSize: 13, fontWeight: '600', color:'#a19791'}}>Account settings</Text>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between',marginVertical: 10, marginTop: 30, borderBottomWidth: 0.2, paddingBottom: 10, borderBottomColor: '#a19791'}}>
+            <TouchableOpacity onPress={() => {navigation.navigate("EditPersonalInfo")}} style={{flexDirection: 'row', justifyContent: 'space-between',marginVertical: 10, marginTop: 30, borderBottomWidth: 0.2, paddingBottom: 10, borderBottomColor: '#a19791'}}>
                 <Text style={{fontSize: 17, fontWeight: '300'}}>Personal information</Text>
                 <Icon                   
                  name='person-outline'
                     type='ionicon'
                 />
-            </View>
+            </TouchableOpacity>
             <View style={{flexDirection: 'row', justifyContent: 'space-between',marginVertical: 10, borderBottomWidth: 0.2, paddingBottom: 10, borderBottomColor: '#a19791'}}>
                 <Text style={{fontSize: 17, fontWeight: '300'}}>Payments and payouts</Text>
                 <Icon                   
@@ -20,13 +20,13 @@ const SettingAccount = () => {
                     type='ionicon'
                 />
             </View>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between',marginVertical: 10, borderBottomWidth: 0.2, paddingBottom: 10, borderBottomColor: '#a19791'}}>
+            <TouchableOpacity onPress={() => {navigation.navigate("EditShippingInfo")}} style={{flexDirection: 'row', justifyContent: 'space-between',marginVertical: 10, borderBottomWidth: 0.2, paddingBottom: 10, borderBottomColor: '#a19791'}}>
                 <Text style={{fontSize: 17, fontWeight: '300'}}>Shipping info</Text>
                 <Icon                   
                  name='local-shipping'
                     type='material'
                 />
-            </View>
+            </TouchableOpacity>
             <View style={{flexDirection: 'row', justifyContent: 'space-between',marginVertical: 10, borderBottomWidth: 0.2, paddingBottom: 10, borderBottomColor: '#a19791'}}>
                 <Text style={{fontSize: 17, fontWeight: '300'}}>Notifications</Text>
                 <Icon                   

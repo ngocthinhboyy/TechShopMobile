@@ -10,9 +10,9 @@ const UserInformation = ({navigation}) => {
     return (
        <View style= {styles.container}>
             <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContent}>
-                <AvatarAccount/>
+                <AvatarAccount navigation={navigation}/>
                 <PurchasedOrderAccount navigation={navigation}/>
-                <SettingAccount/>
+                <SettingAccount navigation={navigation}/>
                 <TechShopRewards/>
             </ScrollView>
        </View>

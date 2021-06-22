@@ -35,18 +35,18 @@ export const CategoryListData = [
     categoryName: 'Watch',
   },
   {
-    iconName: 'phone-portrait-outline',
-    iconType: 'ionicon',
+    iconName: 'devices',
+    iconType: 'material',
     categoryName: 'PC',
   },
   {
-    iconName: 'watch-outline',
-    iconType: 'ionicon',
+    iconName: 'desktop-windows',
+    iconType: 'material',
     categoryName: 'Monitor',
   },
   {
-    iconName: 'headset',
-    iconType: 'ionicon',
+    iconName: 'graphic-eq',
+    iconType: 'material',
     categoryName: 'Audio',
   },
   {
@@ -55,18 +55,18 @@ export const CategoryListData = [
     categoryName: 'Screen',
   },
   {
-    iconName: 'mouse',
+    iconName: 'device-hub',
     iconType: 'material',
     categoryName: 'Hub',
   },
   {
-    iconName: 'watch-outline',
-    iconType: 'ionicon',
+    iconName: 'mic',
+    iconType: 'material',
     categoryName: 'Mic',
   },
   {
-    iconName: 'headset',
-    iconType: 'ionicon',
-    categoryName: 'Earphone',
+    iconName: 'bluetooth-searching',
+    iconType: 'material',
+    categoryName: 'Bluetooth',
   },
 ];

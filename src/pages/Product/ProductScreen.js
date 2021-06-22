@@ -21,7 +21,7 @@ const ProductScreen = ({navigation, route}) => {
       <SafeAreaView style={styles.topContainer}></SafeAreaView>
       <SafeAreaView style={styles.container}>
         <View style={styles.headerNavbar}>
-          <HeaderNavbar />
+          <HeaderNavbar navigation={navigation}/>
         </View>
         <View style={styles.homeScreenContent}>
           <View style={{flex: 0.25}}>

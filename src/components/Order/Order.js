@@ -135,7 +135,7 @@ const Order = ({navigation, order}) => {
               paddingVertical: 8,
             }}>
             <Text style={{fontSize: 12, fontWeight: '100', width: '60%'}}>
-              Rating your experience
+              Remove from my orders
             </Text>
             <Button
               title="Remove"
