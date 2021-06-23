@@ -76,5 +76,5 @@
   - Eclipse IDE for Java EE Developers.
    
  ### `Thành viên:`
-  * Phạm Ngọc Thịnh - ID: 18520368 - email: 18520368@gmt.edu.vn
-  * Đinh Ngọc Uyên Phương - ID: 18520335 - email: 18520335@gmt.edu.vn
+  * Phạm Ngọc Thịnh - ID: 18520368 - email: 18520368@gm.edu.vn
+  * Đinh Ngọc Uyên Phương - ID: 18520335 - email: 18520335@gm.edu.vn
