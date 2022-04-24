@@ -2,9 +2,12 @@ import React, {useContext} from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { AuthContext } from '../../context/authContext';
+import { useDispatch } from "react-redux";
+import { clearData } from "../../utilities/slices/userSlice";
 
 const AvatarAccount = ({navigation}) => {
-    const {isLoggedIn, changeLoginStatus} = useContext(AuthContext);
+    const dispatch = useDispatch();
+    
     return (
         <View style={{width: '100%', alignItems: 'center'
         }}>
@@ -29,7 +32,7 @@ const AvatarAccount = ({navigation}) => {
                     name='log-out-outline'
                     type='ionicon'
                     size={30}
-                    onPress={changeLoginStatus}
+                    onPress={() => dispatch(clearData())}
                 />
                 <Text>Log out</Text>
             </View>

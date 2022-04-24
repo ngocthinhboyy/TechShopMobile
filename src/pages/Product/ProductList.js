@@ -1,16 +1,40 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View} from 'react-native';
 import ProductCard from './ProductCard/ProductCard';
-import {GeneralInfoProductsData} from '../../Data/generalInfoProductsData';
+import { getAllProducts } from "../../utilities/slices/productSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProductList = ({navigation, category}) => {
-  const productList = [...GeneralInfoProductsData];
+  const stateProducts = useSelector((state) => state.product.products);
+  const [products, setProducts] = useState();
+  const [loading, setLoading] = useState(false);
 
-  const renderProductCard = (productList, category) => {
-    productList = productList.filter(
-      product => product.productCategory === category,
-    );
-    let renderResult = [];
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function fetchProduct() {
+      setLoading(true);
+      await dispatch(getAllProducts());
+    }
+    if (!stateProducts.allProducts) {
+      fetchProduct();
+    } else {
+      setLoading(false);
+    }
+  }, [dispatch, stateProducts]);
+
+  useEffect(() => {
+    if (!stateProducts.allProducts) {
+      return;
+    }
+    let baseProducts;
+    baseProducts = stateProducts.filterProducts[category];
+    setProducts(baseProducts);
+  }, [stateProducts, category]);
+
+
+  const renderProductCard = (productList) => {
+   let renderResult = [];
     const lengthProductList = productList.length;
     if (lengthProductList % 2 === 0) {
       for (var i = 0; i < lengthProductList; i++) {
@@ -71,7 +95,7 @@ const ProductList = ({navigation, category}) => {
           justifyContent: 'space-between',
           width: '100%',
         }}>
-        {renderProductCard(productList, category)}
+        {products && renderProductCard(products, category)}
       </View>
     </View>
   );

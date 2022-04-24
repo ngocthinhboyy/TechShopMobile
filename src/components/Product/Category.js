@@ -14,17 +14,17 @@ const Category = ({category, changeCategory, activeCategory}) => {
         height: 100,
         backgroundColor: '#fcf6e8',
       }}
-      onPress={() => changeCategory(category.categoryName)}>
+      onPress={() => changeCategory(category.categoryUrl)}>
       <Icon
         name={category.iconName}
         type={category.iconType}
-        color={activeCategory === category.categoryName ? '#e77733' : 'black'}
+        color={activeCategory === category.categoryUrl ? '#e77733' : 'black'}
         size={40}
       />
       <Text
         style={{
           color: `${
-            activeCategory === category.categoryName ? '#e77733' : 'black'
+            activeCategory === category.categoryUrl ? '#e77733' : 'black'
           }`,
           fontSize: 12,
           fontWeight: '300',

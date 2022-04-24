@@ -6,16 +6,16 @@ import ProductList from './ProductList';
 
 const ProductScreen = ({navigation, route}) => {
   const [category, setCategory] = useState(() => {
-    return route.params !== undefined ? route.params.categoryName : 'Laptop';
+    return route.params !== undefined ? route.params.categoryUrl : 'laptop';
   });
-  const changeCategory = categoryName => {
-    if (categoryName === category) return;
-    else setCategory(categoryName);
+  const changeCategory = categoryUrl => {
+    if (categoryUrl === category) return;
+    else setCategory(categoryUrl);
   };
   useEffect(() => {
     if (route.params === undefined) return;
-    setCategory(route.params?.categoryName);
-  }, [route.params?.categoryName]);
+    setCategory(route.params?.categoryUrl);
+  }, [route.params?.categoryUrl]);
   return (
     <Fragment>
       <SafeAreaView style={styles.topContainer}></SafeAreaView>

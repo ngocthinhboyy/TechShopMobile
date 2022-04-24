@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useContext, useRef} from 'react';
+import React, {Fragment, useState, useContext, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,18 +10,22 @@ import {
 import HeaderProductDetail from './HeaderProductDetail';
 import ProductImageCarousel from './ProductImageCarousel';
 import {Icon, Button} from 'react-native-elements';
-import {ProductDetailListData} from '../../../Data/productDetailListData';
 import {CartContext} from '../../../context/cartContext';
+import ProductApi from '../../../api/productApi';
+import {useDispatch} from 'react-redux';
+import parseImages from "../../../helpers/parseImages";
 
 const ProductDetail = ({navigation, route}) => {
   const addingTimeoutRef = useRef(null);
   const {addToCart} = useContext(CartContext);
+  const dispatch = useDispatch();
+
   const [isDisabled, setIsDisabled] = useState(false);
+  const [product, setProduct] = useState(null);
+  
   const [count, setCount] = useState(1);
-  const productList = [...ProductDetailListData];
-  const getDetailedProduct = (id, productList) => {
-    return productList.find(product => product.productId === parseInt(id));
-  };
+  const images = product && parseImages(product.images)
+
   const addProductToCart = product => {
     if (isDisabled) return;
     setIsDisabled(true);
@@ -34,7 +38,21 @@ const ProductDetail = ({navigation, route}) => {
     }, 500);
   };
 
-  const product = getDetailedProduct(route.params.productId, productList);
+  useEffect(() => {
+    const productId = route.params.productId;
+    console.log(productId);
+    const fetchProduct = async () => {
+      return await ProductApi.getDetailedProduct(productId);
+    };
+
+    fetchProduct()
+      .then(response => {
+        setProduct(response);
+      })
+      .catch(() => {
+        setProduct(null);
+      });
+  }, [dispatch, route.params.productId]);
 
   const handlePrice = price => {
     if (price !== undefined) {
@@ -51,7 +69,6 @@ const ProductDetail = ({navigation, route}) => {
     }
     return '';
   };
-  let price = handlePrice(product.productPrice);
 
   const renderShortTech = productShortTech => {
     var shortTech = productShortTech.replace(/'/g, '"');
@@ -95,10 +112,9 @@ const ProductDetail = ({navigation, route}) => {
       </View>
     ));
   };
+
   const renderSpecifications = productSpecification => {
-    var specifications = productSpecification.replace(/'/g, '"');
-    specifications = JSON.parse(specifications);
-    return specifications.map((item, index) => {
+    return productSpecification.map((item, index) => {
       if (index % 2 === 0) {
         return (
           <View
@@ -110,10 +126,10 @@ const ProductDetail = ({navigation, route}) => {
               backgroundColor: '#fcebc6',
               borderRadius: 10,
             }}>
-            <Text style={{fontSize: 14, fontWeight: '400'}}>
-              {item.tag}:{' '}
-              <Text style={{fontSize: 14, fontWeight: '200', color: 'black'}}>
-                {item.content}
+            <Text style={{fontSize: 14, fontWeight: '400', textTransform: 'capitalize'}}>
+              {item.name}:{' '}
+              <Text style={{fontSize: 14, fontWeight: '200', color: 'black', textTransform: 'capitalize'}}>
+                {item.value}
               </Text>
             </Text>
           </View>
@@ -129,9 +145,9 @@ const ProductDetail = ({navigation, route}) => {
               borderRadius: 10,
             }}>
             <Text style={{fontSize: 14, fontWeight: '400'}}>
-              {item.tag}:{' '}
+              {item.name}:{' '}
               <Text style={{fontSize: 14, fontWeight: '200', color: 'black'}}>
-                {item.content}
+                {item.value}
               </Text>
             </Text>
           </View>
@@ -139,208 +155,229 @@ const ProductDetail = ({navigation, route}) => {
       }
     });
   };
+
   return (
     <Fragment>
       <SafeAreaView style={styles.topContainer}></SafeAreaView>
       <SafeAreaView style={styles.container}>
-        <View style={styles.headerNavbar}>
-          <HeaderProductDetail navigation={navigation} />
-        </View>
-        <View style={styles.homeScreenContent}>
-          <ScrollView contentContainerStyle={styles.scrollView}>
-            <ProductImageCarousel images={product.images} />
-            <View style={{alignItems: 'flex-start', width: '90%'}}>
-              <Text style={{fontSize: 25, fontWeight: '500'}}>
-                {product.productName}
-              </Text>
+        {product &&
+        (
+          <>
+            <View style={styles.headerNavbar}>
+              <HeaderProductDetail navigation={navigation} />
             </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                width: '91%',
-              }}>
-              <View>
-                <View
-                  style={{marginTop: 10, marginLeft: 3, flexDirection: 'row'}}>
-                  <Text style={{fontStyle: 'italic'}}>Brand: </Text>
-                  <Text style={{color: '#e77733'}}>{product.brandName}</Text>
-                </View>
-                <View style={{flexDirection: 'row', marginTop: 10}}>
-                  <Icon name="star" color="#e77733" size={20} />
-                  <Icon name="star" color="#e77733" size={20} />
-                  <Icon name="star" color="#e77733" size={20} />
-                  <Icon name="star" color="#e77733" size={20} />
-                  <Icon name="star" color="gray" size={20} />
-                </View>
-                <View style={{flexDirection: 'row', marginTop: 10}}>
-                  <Text style={{fontSize: 20, fontWeight: '300'}}>{price}</Text>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight: '300',
-                      textDecorationLine: 'underline',
-                    }}>
-                    đ
+            <View style={styles.homeScreenContent}>
+              <ScrollView contentContainerStyle={styles.scrollView}>
+                <ProductImageCarousel images={images} />
+                <View style={{alignItems: 'flex-start', width: '90%'}}>
+                  <Text style={{fontSize: 25, fontWeight: '500'}}>
+                    {product.name}
                   </Text>
                 </View>
-              </View>
-              <View style={{width: '35%'}}>
                 <View
                   style={{
-                    width: '85%',
-                    display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    height: 30,
-                    backgroundColor: '#f7deab',
-                    marginVertical: 15,
-                    borderRadius: 10,
+                    width: '91%',
                   }}>
-                  <TouchableOpacity
-                    onPress={() => setCount(count - 1)}
-                    style={{
-                      width: '30%',
-                      backgroundColor: '#f7deab',
-                      height: '60%',
-                      justifyContent: 'center',
-                      borderRightWidth: 1,
-                    }}>
-                    <Icon
-                      name="remove"
-                      type="material"
-                      color="#272622"
-                      size={15}
+                  <View>
+                    <View
+                      style={{
+                        marginTop: 10,
+                        marginLeft: 3,
+                        flexDirection: 'row',
+                      }}>
+                      <Text style={{fontStyle: 'italic'}}>Brand: </Text>
+                      <Text style={{color: '#e77733'}}>
+                        {product.brandName}
+                      </Text>
+                    </View>
+                    <View style={{flexDirection: 'row', marginTop: 10}}>
+                      <Icon name="star" color="#e77733" size={20} />
+                      <Icon name="star" color="#e77733" size={20} />
+                      <Icon name="star" color="#e77733" size={20} />
+                      <Icon name="star" color="#e77733" size={20} />
+                      <Icon name="star" color="gray" size={20} />
+                    </View>
+                    <View style={{flexDirection: 'row', marginTop: 10}}>
+                      <Text style={{fontSize: 20, fontWeight: '300'}}>
+                        {handlePrice(product.price)}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          fontWeight: '300',
+                          textDecorationLine: 'underline',
+                        }}>
+                        đ
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={{width: '35%'}}>
+                    <View
+                      style={{
+                        width: '85%',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        height: 30,
+                        backgroundColor: '#f7deab',
+                        marginVertical: 15,
+                        borderRadius: 10,
+                      }}>
+                      <TouchableOpacity
+                        onPress={() => setCount(count - 1)}
+                        style={{
+                          width: '30%',
+                          backgroundColor: '#f7deab',
+                          height: '60%',
+                          justifyContent: 'center',
+                          borderRightWidth: 1,
+                        }}>
+                        <Icon
+                          name="remove"
+                          type="material"
+                          color="#272622"
+                          size={15}
+                        />
+                      </TouchableOpacity>
+                      <View
+                        style={{
+                          width: '40%',
+                          backgroundColor: '#f7deab',
+                          height: '100%',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}>
+                        <Text style={{fontSize: 15, color: '#272622'}}>
+                          {count}
+                        </Text>
+                      </View>
+                      <TouchableOpacity
+                        onPress={() => setCount(count + 1)}
+                        style={{
+                          width: '30%',
+                          justifyContent: 'center',
+                          backgroundColor: '#f7deab',
+                          height: '60%',
+                          borderLeftWidth: 1,
+                        }}>
+                        <Icon
+                          name="add"
+                          type="material"
+                          color="#272622"
+                          size={15}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <Button
+                      icon={
+                        !isDisabled ? (
+                          <Icon
+                            name="add-shopping-cart"
+                            size={20}
+                            color="white"
+                          />
+                        ) : null
+                      }
+                      title={!isDisabled ? '  Add to Cart' : 'Added'}
+                      titleStyle={{fontSize: 15, fontWeight: '300'}}
+                      buttonStyle={
+                        !isDisabled
+                          ? {backgroundColor: '#e77733', marginRight: 20}
+                          : {backgroundColor: 'rgb(0,153,0)', marginRight: 20}
+                      }
+                      onPress={() =>
+                        addProductToCart({
+                          productId: product.id,
+                          productImage: images[0],
+                          productName: product.name,
+                          productPrice: product.price,
+                          productCategory: product.categoryName,
+                          quantity: count,
+                        })
+                      }
                     />
-                  </TouchableOpacity>
+                  </View>
+                </View>
+                {/* <View
+                  style={{
+                    width: '50%',
+                    height: 1,
+                    backgroundColor: '#a6a7a6',
+                    marginTop: 30,
+                  }}></View> 
+                <View
+                  style={{
+                    width: '90%',
+                    marginTop: 15,
+                  }}>
+                  <Text
+                    style={{color: '#e77733', fontSize: 20, marginBottom: 10}}>
+                    General Information
+                  </Text>
+                  <View style={{marginLeft: 20}}>
+                    {renderShortTech(product?.shortTech)}
+                  </View>
+                </View> */}
+                <View
+                  style={{
+                    width: '50%',
+                    height: 1,
+                    backgroundColor: '#a6a7a6',
+                    marginTop: 30,
+                  }}></View>
+                <View
+                  style={{
+                    width: '90%',
+                    marginTop: 15,
+                  }}>
+                  <Text
+                    style={{color: '#e77733', fontSize: 20, marginBottom: 10}}>
+                    Description
+                  </Text>
+                  <View style={{marginLeft: 20, width: '90%'}}>
+                    {renderDescription(product.longDescrip)}
+                  </View>
+                </View>
+                <View
+                  style={{
+                    width: '50%',
+                    height: 1,
+                    backgroundColor: '#a6a7a6',
+                    marginTop: 30,
+                  }}></View>
+                <View
+                  style={{
+                    width: '90%',
+                    marginTop: 25,
+                  }}>
+                  <Text
+                    style={{color: '#e77733', fontSize: 20, marginBottom: 10}}>
+                    General Specifications
+                  </Text>
                   <View
                     style={{
-                      width: '40%',
+                      marginTop: 15,
+                      paddingVertical: 15,
+                      paddingLeft: 20,
                       backgroundColor: '#f7deab',
-                      height: '100%',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      borderRadius: 20,
+                      width: '100%',
+                      shadowColor: '#000',
+                      shadowOffset: {width: 0, height: 2},
+                      shadowOpacity: 0.25,
+                      shadowRadius: 10,
                     }}>
-                    <Text style={{fontSize: 15, color: '#272622'}}>
-                      {count}
-                    </Text>
+                    {renderSpecifications(product.specifications)}
                   </View>
-                  <TouchableOpacity
-                    onPress={() => setCount(count + 1)}
-                    style={{
-                      width: '30%',
-                      justifyContent: 'center',
-                      backgroundColor: '#f7deab',
-                      height: '60%',
-                      borderLeftWidth: 1,
-                    }}>
-                    <Icon
-                      name="add"
-                      type="material"
-                      color="#272622"
-                      size={15}
-                    />
-                  </TouchableOpacity>
                 </View>
-                <Button
-                  icon={
-                    !isDisabled ? (
-                      <Icon name="add-shopping-cart" size={20} color="white" />
-                    ) : null
-                  }
-                  title={!isDisabled ? '  Add to Cart' : 'Added'}
-                  titleStyle={{fontSize: 15, fontWeight: '300'}}
-                  buttonStyle={
-                    !isDisabled
-                      ? {backgroundColor: '#e77733', marginRight: 20}
-                      : {backgroundColor: 'rgb(0,153,0)', marginRight: 20}
-                  }
-                  onPress={() =>
-                    addProductToCart({
-                      productId: product.productId,
-                      productImage: product.images[0].imgSrc,
-                      productName: product.productName,
-                      productPrice: product.productPrice,
-                      productCategory: product.categoryName,
-                      quantity: count,
-                    })
-                  }
-                />
-              </View>
+              </ScrollView>
             </View>
-            <View
-              style={{
-                width: '50%',
-                height: 1,
-                backgroundColor: '#a6a7a6',
-                marginTop: 30,
-              }}></View>
-            <View
-              style={{
-                width: '90%',
-                marginTop: 15,
-              }}>
-              <Text style={{color: '#e77733', fontSize: 20, marginBottom: 10}}>
-                General Information
-              </Text>
-              <View style={{marginLeft: 20}}>
-                {renderShortTech(product.shortTech)}
-              </View>
-            </View>
-            <View
-              style={{
-                width: '50%',
-                height: 1,
-                backgroundColor: '#a6a7a6',
-                marginTop: 30,
-              }}></View>
-            <View
-              style={{
-                width: '90%',
-                marginTop: 15,
-              }}>
-              <Text style={{color: '#e77733', fontSize: 20, marginBottom: 10}}>
-                Description
-              </Text>
-              <View style={{marginLeft: 20, width: '90%'}}>
-                {renderDescription(product.longDescrip)}
-              </View>
-            </View>
-            <View
-              style={{
-                width: '50%',
-                height: 1,
-                backgroundColor: '#a6a7a6',
-                marginTop: 30,
-              }}></View>
-            <View
-              style={{
-                width: '90%',
-                marginTop: 25,
-              }}>
-              <Text style={{color: '#e77733', fontSize: 20, marginBottom: 10}}>
-                General Specifications
-              </Text>
-              <View
-                style={{
-                  marginTop: 15,
-                  paddingVertical: 15,
-                  paddingLeft: 20,
-                  backgroundColor: '#f7deab',
-                  borderRadius: 20,
-                  width: '100%',
-                  shadowColor: '#000',
-                  shadowOffset: {width: 0, height: 2},
-                  shadowOpacity: 0.25,
-                  shadowRadius: 10,
-                }}>
-                {renderSpecifications(product.specs)}
-              </View>
-            </View>
-          </ScrollView>
-        </View>
+          </>
+        )}
       </SafeAreaView>
     </Fragment>
   );

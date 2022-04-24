@@ -1,16 +1,19 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import {Image, StyleSheet, Text, View} from 'react-native';
+import noimage from '../../../assets/img/noimage.png';
+import parseImages from "../../../helpers/parseImages";
 
 const ProductCard = ({product, navigation}) => {
+  const images = parseImages(product.images);
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() =>
-        navigation.navigate('ProductDetail', {productId: product.productId})
+        navigation.navigate('ProductDetail', {productId: product.id})
       }>
       <Image
-        source={product.productImage}
+        source={{uri: images.length > 0 ? images[0] : noimage}}
         style={{
           width: '100%',
           height: 180,
@@ -25,11 +28,11 @@ const ProductCard = ({product, navigation}) => {
           fontWeight: '300',
           marginTop: 20,
         }}>
-        {product.productName}
+        {product.name}
       </Text>
       <Text
         style={{color: 'black', fontSize: 11, fontWeight: '200', marginTop: 5}}>
-        {product.productPrice}
+        {product.price}
       </Text>
     </TouchableOpacity>
   );

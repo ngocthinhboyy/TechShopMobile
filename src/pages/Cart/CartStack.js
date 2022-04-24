@@ -1,12 +1,11 @@
-import React, {useContext} from 'react';
-import {AuthContext} from '../../context/authContext';
-import CartProvider from '../../context/cartContext';
+import React from 'react';
+import { useSelector } from "react-redux";
 import Stack from '../../navigations/stack-navigator/Stack';
 import LoginScreen from '../Login/LoginScreen';
 import CartScreen from './CartScreen';
 
 const CartStack = ({navigation}) => {
-  const {isLoggedIn, changeLoginStatus} = useContext(AuthContext);
+  const { isLoggedIn } = useSelector((state) => state.user.data);
 
   return (
     <Stack.Navigator
@@ -16,7 +15,7 @@ const CartStack = ({navigation}) => {
       {!isLoggedIn ? (
         <Stack.Screen
           name="CheckOut"
-          children={() => <LoginScreen changeStatus={changeLoginStatus} />}
+          children={() => <LoginScreen />}
           options={{title: 'Check Out'}}
         />
       ) : (
