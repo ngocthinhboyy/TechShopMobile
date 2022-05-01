@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
-import parseImages from "../../../helpers/parseImages";
+
 
 const ProductImageCarousel = ({images}) => {
   
@@ -9,7 +9,6 @@ const ProductImageCarousel = ({images}) => {
   const isCarousel = useRef(null);
 
   const renderItem = ({item}, parallaxProps) => {
-    console.log(item)
     return (
       <View style={{width: 400, height: 350}}>
         <ParallaxImage

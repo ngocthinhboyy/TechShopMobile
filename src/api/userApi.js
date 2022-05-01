@@ -1,13 +1,13 @@
-import * as UrlConstant from "../utilities/UrlConstant";
-import axiosClient from "./axiosClient";
-import axiosClientAuthen from "./axiosClientAuthen";
+import * as UrlConstant from '../utilities/UrlConstant';
+import axiosClient from './axiosClient';
+import axiosClientAuthen from './axiosClientAuthen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const UserApi = {
-  login: async (params) => {
-    let { email, pswd } = params;
+  login: async params => {
+    let {email, pswd} = params;
     // const url = `${UrlConstant.LOGIN}`;
-    const data = JSON.stringify({ email, pswd });
+    const data = JSON.stringify({email, pswd});
     // console.log("hiii", url)
     // return axiosClient
     //   .post(url, data)
@@ -24,43 +24,42 @@ const UserApi = {
     //   });
     const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: data
-  };
+      headers: {'Content-Type': 'application/json'},
+      body: data,
+    };
     return fetch('http://localhost:8080/api/v1/auth/login', requestOptions)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson)
-        AsyncStorage.setItem("access", responseJson.role);
-        AsyncStorage.setItem("user", responseJson.access_token);
-        AsyncStorage.setItem("fullname", responseJson.fullname);
-        return responseJson
+      .then(response => response.json())
+      .then(responseJson => {
+        AsyncStorage.setItem('access', responseJson.role);
+        AsyncStorage.setItem('user', responseJson.access_token);
+        AsyncStorage.setItem('fullname', responseJson.fullname);
+        return responseJson;
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(error => {
+        return Promise.reject(error);
       });
   },
   getShippingInfo: async () => {
     const url = `${UrlConstant.GET_USER_SHIPPING_INFO}`;
     return axiosClientAuthen
       .get(url)
-      .then((response) => {
+      .then(response => {
         return response;
       })
-      .catch((error) => {
+      .catch(error => {
         return Promise.reject(error);
       });
   },
-  signup: (userInfo) => {
+  signup: userInfo => {
     const url = `${UrlConstant.SIGNUP}`;
     const data = JSON.stringify(userInfo);
 
     return axiosClientAuthen
       .post(url, data)
-      .then((response) => {
+      .then(response => {
         return response;
       })
-      .catch((error) => {
+      .catch(error => {
         if (error.response) {
           return Promise.reject(error.response.data);
         } else {

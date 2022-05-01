@@ -7,19 +7,17 @@
  */
 
 import React from 'react';
-import {RootNavigator} from './src/navigations/RootNavigator';
+import 'react-native-gesture-handler';
+import { Provider } from 'react-redux';
+import store from './src/app/store';
 import AuthProvider from './src/context/authContext';
 import CartProvider from './src/context/cartContext';
 import OrderProvider from './src/context/orderContext';
-import store from './src/app/store';
-import 'react-native-gesture-handler';
-import {Provider} from 'react-redux';
-import {setInit} from './src/utilities/slices/userSlice';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { RootNavigator } from './src/navigations/RootNavigator';
+import { setInit } from './src/utilities/slices/userSlice';
 
 const App = () => {
   AsyncStorage.getItem('user').then(result => {
-    console.log(result)
     store.dispatch(setInit(result));
   });
   return (

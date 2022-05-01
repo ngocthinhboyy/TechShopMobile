@@ -7,7 +7,6 @@ const AuthProvider = ({children}) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const changeLoginStatus = () => {
-    console.log('change login status');
     UserApi.login({
       email: 'phuongdinh1802@gmail.com.vn',
       pswd: '1',

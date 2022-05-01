@@ -42,6 +42,7 @@ const user = createSlice({
       state.data.error = "";
     },
     [login.rejected]: (state) => {
+      state.data.isLoggedIn = false
       state.data.error = "Username or password is incorrect";
     },
   },

@@ -34,11 +34,9 @@ const ProductApi = {
 
   getDetailedProduct: async (id) => {
     const url = `${UrlConstant.GET_DETAILED_PRODUCT}/${id}`;
-    // console.log("call api get detail")
     return fetch(`http://localhost:8080/api/v1/product/${id}`)
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson)
         return responseJson
       })
       .catch((error) => {

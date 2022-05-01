@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
-import { Text, View } from 'react-native';
-import { Button, Icon, Input } from 'react-native-elements';
-import { useDispatch } from "react-redux";
-import { login } from "../../utilities/slices/userSlice";
+import React, {useState} from 'react';
+import {Text, View} from 'react-native';
+import {Button, Icon, Input} from 'react-native-elements';
+import {useDispatch} from 'react-redux';
+import {login} from '../../utilities/slices/userSlice';
+import {useSelector} from 'react-redux';
 
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [info, setInfo] = useState({});
+
+  const {error} = useSelector(state => state.user.data);
 
   const dispatch = useDispatch();
 
@@ -14,7 +17,7 @@ const Login = () => {
     setInfo({...info, [name]: value});
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     async function submitToLogin() {
       await dispatch(login(info));
     }
@@ -59,7 +62,7 @@ const Login = () => {
             autoCapitalize="none"
             name="username"
             type="text"
-            onChangeText={(text) => handleChangeInputText(text, "email")}
+            onChangeText={text => handleChangeInputText(text, 'email')}
           />
         </View>
         <View
@@ -78,7 +81,7 @@ const Login = () => {
             name="pswd"
             type="password"
             secureTextEntry={true}
-            onChangeText={(text)=>handleChangeInputText(text, "pswd")}
+            onChangeText={text => handleChangeInputText(text, 'pswd')}
             rightIcon={
               <Icon name="visibility" size={20} color="black" type="material" />
             }
@@ -95,6 +98,11 @@ const Login = () => {
           <Text style={{fontSize: 12, fontWeight: '300'}}>
             Forgot password?
           </Text>
+          {error ? (
+            <Text style={{fontSize: 12, fontWeight: '300'}}>{error}</Text>
+          ) : (
+            null
+          )}
         </View>
       </View>
       <View style={{backgroundColor: '#fcf6e8', marginBottom: 30}}>
