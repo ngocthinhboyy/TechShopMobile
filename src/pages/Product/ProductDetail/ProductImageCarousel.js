@@ -14,7 +14,7 @@ const ProductImageCarousel = ({images}) => {
         <ParallaxImage
           source={{uri: item}}
           containerStyle={{backgroundColor: 'white', borderRadius: 8, flex: 1}}
-          style={{...StyleSheet.absoluteFillObject, resizeMode: 'cover'}}
+          style={{...StyleSheet.absoluteFillObject, resizeMode: 'contain'}}
           parallaxFactor={0.4}
           {...parallaxProps}
         />
