@@ -13,7 +13,9 @@ import {Icon, Button} from 'react-native-elements';
 import {CartContext} from '../../../context/cartContext';
 import ProductApi from '../../../api/productApi';
 import {useDispatch} from 'react-redux';
-import parseImages from "../../../helpers/parseImages";
+import parseImages from '../../../helpers/parseImages';
+import TrendingProductCard from '../ProductCard/TrendingProductCard';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
 
 const ProductDetail = ({navigation, route}) => {
   const addingTimeoutRef = useRef(null);
@@ -22,9 +24,37 @@ const ProductDetail = ({navigation, route}) => {
 
   const [isDisabled, setIsDisabled] = useState(false);
   const [product, setProduct] = useState(null);
-  
+
   const [count, setCount] = useState(1);
-  const images = product && parseImages(product.images)
+  const images = product && parseImages(product.images);
+
+  const [recommendProductList, setRecommendProductList] = useState([]);
+  const [index, setIndex] = useState(0);
+  const isCarousel = useRef(null);
+
+  const scrollRef = useRef();
+
+  const onPressTouch = () => {
+    scrollRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+  };
+
+  useEffect(() => {
+    async function fetchRecommendProducts() {
+      await ProductApi.getTrendingProducts().then(res => {
+        setRecommendProductList(res);
+      });
+    }
+    if (!recommendProductList || recommendProductList.length == 0) {
+      fetchRecommendProducts();
+    }
+  }, [recommendProductList]);
+
+  const renderItem = ({item}) => {
+    return <TrendingProductCard product={item} navigation={navigation} onPressTouch={onPressTouch} />;
+  };
 
   const addProductToCart = product => {
     if (isDisabled) return;
@@ -40,7 +70,6 @@ const ProductDetail = ({navigation, route}) => {
 
   useEffect(() => {
     const productId = route.params.productId;
-    console.log(productId);
     const fetchProduct = async () => {
       return await ProductApi.getDetailedProduct(productId);
     };
@@ -126,9 +155,20 @@ const ProductDetail = ({navigation, route}) => {
               backgroundColor: '#fcebc6',
               borderRadius: 10,
             }}>
-            <Text style={{fontSize: 14, fontWeight: '400', textTransform: 'capitalize'}}>
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: '400',
+                textTransform: 'capitalize',
+              }}>
               {item.name}:{' '}
-              <Text style={{fontSize: 14, fontWeight: '200', color: 'black', textTransform: 'capitalize'}}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: '200',
+                  color: 'black',
+                  textTransform: 'capitalize',
+                }}>
                 {item.value}
               </Text>
             </Text>
@@ -160,14 +200,15 @@ const ProductDetail = ({navigation, route}) => {
     <Fragment>
       <SafeAreaView style={styles.topContainer}></SafeAreaView>
       <SafeAreaView style={styles.container}>
-        {product &&
-        (
+        {product && (
           <>
             <View style={styles.headerNavbar}>
               <HeaderProductDetail navigation={navigation} />
             </View>
             <View style={styles.homeScreenContent}>
-              <ScrollView contentContainerStyle={styles.scrollView}>
+              <ScrollView
+                contentContainerStyle={styles.scrollView}
+                ref={scrollRef}>
                 <ProductImageCarousel images={images} />
                 <View style={{alignItems: 'flex-start', width: '90%'}}>
                   <Text style={{fontSize: 25, fontWeight: '500'}}>
@@ -373,6 +414,52 @@ const ProductDetail = ({navigation, route}) => {
                     }}>
                     {renderSpecifications(product.specifications)}
                   </View>
+                </View>
+                <View
+                  style={{
+                    width: '50%',
+                    height: 1,
+                    backgroundColor: '#a6a7a6',
+                    marginTop: 30,
+                  }}></View>
+                <View
+                  style={{
+                    width: '90%',
+                    marginTop: 25,
+                  }}>
+                  <Text
+                    style={{color: '#e77733', fontSize: 20, marginBottom: 10}}>
+                    Related Products
+                  </Text>
+                  <Carousel
+                    ref={isCarousel}
+                    layout={'default'}
+                    data={recommendProductList}
+                    onSnapToItem={index => setIndex(index)}
+                    sliderWidth={350}
+                    itemWidth={130}
+                    renderItem={renderItem}
+                  />
+                  <Pagination
+                    containerStyle={{
+                      backgroundColor: '#fcebc6',
+                      padding: 0,
+                      margin: 0,
+                    }}
+                    dotsLength={recommendProductList.length}
+                    carouselRef={isCarousel}
+                    activeDotIndex={index}
+                    dotStyle={{
+                      width: 8,
+                      height: 1,
+                      borderRadius: 5,
+                      marginHorizontal: -10,
+                      backgroundColor: 'rgba(0, 0, 0, 1)',
+                    }}
+                    inactiveDotOpacity={0.3}
+                    inactiveDotScale={0.5}
+                    tappableDots={true}
+                  />
                 </View>
               </ScrollView>
             </View>

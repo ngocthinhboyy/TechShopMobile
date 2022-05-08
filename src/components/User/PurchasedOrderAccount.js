@@ -1,11 +1,24 @@
-import React, {useContext} from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
-import {OrderContext} from '../../context/orderContext';
+import {useSelector, useDispatch} from 'react-redux';
+import { getAllUserOrders } from "../../utilities/slices/userSlice";
 
 const PurchasedOrderAccount = ({navigation}) => {
-  const {quantity} = useContext(OrderContext);
-  return (
+  const {listOrders} = useSelector(state => state.user.data);
+  const dispatch = useDispatch();
+
+  // get list orders
+  useEffect(() => {
+    async function fetchOrders() {
+      await dispatch(getAllUserOrders());
+    }
+    if (!listOrders) {
+      fetchOrders();
+    }
+  }, [dispatch]);
+
+  return listOrders ? (
     <View style={{width: '85%', margin: 20}}>
       <Text style={{fontSize: 13, fontWeight: '600', color: '#a19791'}}>
         Purchased orders
@@ -25,17 +38,14 @@ const PurchasedOrderAccount = ({navigation}) => {
           onPress={() => navigation.navigate('Order', {tabRender: 'Pending'})}>
           <Icon name="receipt-long" type="material" color="#ee8241" size={40} />
           <Text style={{marginTop: 20, fontSize: 13, fontWeight: '200'}}>
-            Pending
-          </Text>
-          <Text style={{fontSize: 13, fontWeight: '200'}}>
-            Confirmation ({quantity.pending})
+            Pending ({listOrders['placed-order']?.length})
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate('Order', {tabRender: 'Picking'})}>
           <Icon name="storefront" type="material" color="#ee8241" size={40} />
           <Text style={{marginTop: 20, fontSize: 13, fontWeight: '200'}}>
-            Picking ({quantity.picking})
+            Picking ({listOrders.handling.length})
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -47,18 +57,22 @@ const PurchasedOrderAccount = ({navigation}) => {
             size={40}
           />
           <Text style={{marginTop: 20, fontSize: 13, fontWeight: '200'}}>
-            Shipping ({quantity.shipping})
+            Shipping ({listOrders.shipped.length})
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Order', {tabRender: 'Rating'})}>
+          onPress={() =>
+            navigation.navigate('Order', {tabRender: 'Completed'})
+          }>
           <Icon name="star-outline" type="material" color="#ee8241" size={40} />
           <Text style={{marginTop: 20, fontSize: 13, fontWeight: '200'}}>
-            Rating ({quantity.rating})
+            Rating ({listOrders.deliveried.length})
           </Text>
         </TouchableOpacity>
       </View>
     </View>
+  ) : (
+    null
   );
 };
 

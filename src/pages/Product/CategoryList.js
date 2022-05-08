@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
+import { useDispatch, useSelector } from "react-redux";
 import Category from '../../components/Product/Category';
-import { CategoryListData } from '../../Data/categoryListData';
+import { getCategories } from '../../utilities/slices/categorySlice';
 
 const CategoryList = ({changeCategory, activeCategory}) => {
-  const categoryList = [...CategoryListData]
+  const categoryList = useSelector((state) => state.category.data);
+  const dispatch = useDispatch();
+
+  // get categories
+  useEffect(() => {
+    async function fetchCategories() {
+      await dispatch(getCategories());
+    }
+    if (!categoryList.length) {
+      fetchCategories();
+    }
+  }, [dispatch, categoryList]);
+
   const renderCategoryList = categoryList => {
     return categoryList.map((category, index) => {
       return (
@@ -17,7 +30,7 @@ const CategoryList = ({changeCategory, activeCategory}) => {
       );
     });
   };
-  return <View>{renderCategoryList(categoryList)}</View>;
+  return <View>{categoryList.length > 0 && renderCategoryList(categoryList)}</View>;
 };
 
 export default CategoryList;

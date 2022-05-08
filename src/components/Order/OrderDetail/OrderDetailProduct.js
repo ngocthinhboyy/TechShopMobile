@@ -1,6 +1,7 @@
 import React from 'react';
-import {View, Text, Image} from 'react-native';
-import {Icon, Button} from 'react-native-elements';
+import { Image, Text, View } from 'react-native';
+import { Icon } from 'react-native-elements';
+import parseImages from '../../../helpers/parseImages';
 
 const OrderDetailProduct = ({order}) => {
 
@@ -23,6 +24,7 @@ const OrderDetailProduct = ({order}) => {
 
   const renderOrderProduct = productList => {
     return productList.map((product, index) => {
+      const images = parseImages(product.images)
         return(
             countProduct += product.quantity,
             <View 
@@ -41,12 +43,12 @@ const OrderDetailProduct = ({order}) => {
                 flexDirection: 'row'
                 }}>
                 <Image
-                source={product.productImage}
+                source={{uri: images[0]}}
                 style={{width: 55, height: 55, marginRight: 10}}
                 />
                 <View style={{width: '83%'}}>
                 <Text style={{fontSize: 14, fontWeight: 'bold'}}>
-                    {product.productName}
+                    {product.name}
                 </Text>
                 <View
                     style={{
@@ -104,7 +106,7 @@ const OrderDetailProduct = ({order}) => {
                     fontSize: 14,
                     fontWeight: '300',
                     color: '#e77733',
-                  }}>{handlePrice(order.totalPrice)}</Text>
+                  }}>{handlePrice(order.total)}</Text>
                 <Text
                   style={{
                     fontSize: 14,
@@ -141,12 +143,15 @@ const OrderDetailProduct = ({order}) => {
            </View>
            <View style={{width: '75%', marginTop: 5, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                 <Text style={{fontSize: 13, fontWeight: '200', marginHorizontal: 11}}>Order Date</Text>
-                <Text style={{fontSize: 13, fontWeight: '200', marginHorizontal: 11}}>{order.invoiceDate}</Text>
+                <Text style={{fontSize: 13, fontWeight: '200', marginHorizontal: 11}}>{order.processDate[0]}</Text>
            </View>
-           <View style={{width: '75%', marginTop: 5, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                <Text style={{fontSize: 13, fontWeight: '200', marginHorizontal: 11}}>Shipping Date</Text>
-                <Text style={{fontSize: 13, fontWeight: '200', marginHorizontal: 11}}>{order.shippingDate}</Text>
-           </View>
+           {
+             order.processDate.length == 6 ?  <View style={{width: '75%', marginTop: 5, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+             <Text style={{fontSize: 13, fontWeight: '200', marginHorizontal: 11}}>Shipping Date</Text>
+             <Text style={{fontSize: 13, fontWeight: '200', marginHorizontal: 11}}>{order.processDate[5]}</Text>
+        </View>:""
+           }
+          
     </View>
   );
 };

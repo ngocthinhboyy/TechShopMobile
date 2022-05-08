@@ -28,7 +28,7 @@ const HomeScreen = ({navigation}) => {
             <ImageCarousel />
             <CategoryList navigation={navigation} />
             <TrendingProduct navigation={navigation} />
-            <TopPurchasedProduct navigation={navigation} />
+            {/* <TopPurchasedProduct navigation={navigation} /> */}
           </ScrollView>
         </View>
       </SafeAreaView>

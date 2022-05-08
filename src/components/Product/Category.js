@@ -3,6 +3,7 @@ import {Text, View, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
 
 const Category = ({category, changeCategory, activeCategory}) => {
+  
   return (
     <TouchableOpacity
       style={{
@@ -14,23 +15,22 @@ const Category = ({category, changeCategory, activeCategory}) => {
         height: 100,
         backgroundColor: '#fcf6e8',
       }}
-      onPress={() => changeCategory(category.categoryUrl)}>
+      onPress={() => changeCategory(category.slug)}>
       <Icon
-        name={category.iconName}
-        type={category.iconType}
-        color={activeCategory === category.categoryUrl ? '#e77733' : 'black'}
+        name="laptop-mac"
+        type="material"
+        color={activeCategory === category.slug ? '#e77733' : 'black'}
         size={40}
       />
       <Text
+        numberOfLines={1}
         style={{
-          color: `${
-            activeCategory === category.categoryUrl ? '#e77733' : 'black'
-          }`,
+          color: `${activeCategory === category.slug ? '#e77733' : 'black'}`,
           fontSize: 12,
           fontWeight: '300',
           marginTop: 7,
         }}>
-        {category.categoryName}
+        {category.name}
       </Text>
     </TouchableOpacity>
   );

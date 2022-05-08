@@ -29,7 +29,6 @@ const BuyCart = ({totalPrice, navigation}) => {
             '207, Đường C25, Phường Tăng Nhơn Phú B',
         },
     };
-    console.log(data)
 
     const placeOrder = async (data) => {
       return OrderApi.placeOrder(data)

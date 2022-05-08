@@ -1,20 +1,26 @@
-import React, {Fragment, useContext, useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import React, { Fragment, useEffect, useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import OrderDetailProduct from '../../components/Order/OrderDetail/OrderDetailProduct';
 import OrderDetailShipping from '../../components/Order/OrderDetail/OrderDetailShipping';
-import {OrderContext} from '../../context/orderContext';
 import OrderDetailHeader from './OrderDetailHeader';
 
 const OrderDetail = ({navigation, route}) => {
-  const [orderDetail, setOrderDetail] = useState();
-  const {orderData} = useContext(OrderContext);
+  const [order, setOrder] = useState();
+  const orderId = parseInt(route.params.invoiceID)
+
   useEffect(() => {
-    const orderDetailList = orderData.detailOrderList;
-    let orderDetail = orderDetailList.find(
-      order => order.invoiceID === parseInt(route.params.invoiceID),
-      );
-      setOrderDetail(orderDetail);
-  }, [orderData]);
+    const getDetailedOrder = async () => {
+      await OrderApi.getOrder(orderId)
+        .then((res) => {
+          setOrder(res);
+        })
+        .catch(() => {
+          setOrder(null);
+        });
+    };
+    getDetailedOrder();
+  }, [orderId]);
+
   return (
     <Fragment>
       <SafeAreaView style={styles.topContainer}></SafeAreaView>
@@ -24,10 +30,10 @@ const OrderDetail = ({navigation, route}) => {
         </View>
         <View style={styles.homeScreenContent}>
           <ScrollView contentContainerStyle={styles.scrollView}>
-            {orderDetail === undefined ? null : (
+            {order === undefined ? null : (
               <React.Fragment>
-                <OrderDetailShipping order={orderDetail} />
-                <OrderDetailProduct order={orderDetail} />
+                <OrderDetailShipping order={order} />
+                <OrderDetailProduct order={order} />
               </React.Fragment>
             )}
           </ScrollView>
@@ -36,6 +42,7 @@ const OrderDetail = ({navigation, route}) => {
     </Fragment>
   );
 };
+
 const styles = StyleSheet.create({
   headerNavbar: {
     flex: 0.7,

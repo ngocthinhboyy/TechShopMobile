@@ -1,10 +1,20 @@
-import React, {useContext} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
-import {Icon, Button} from 'react-native-elements';
-import {OrderContext} from '../../context/orderContext';
+import React from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Button, Icon} from 'react-native-elements';
+import {OrderStatus} from '../../utilities/Constant';
+import parseImages from '../../helpers/parseImages';
 
 const Order = ({navigation, order}) => {
-  const {updateStatusOrder} = useContext(OrderContext);
+  const updateStatusOrder = async () => {
+    return await OrderApi.updateOrderStatus(orderId)
+      .then(res => res)
+      .catch(err => console.log(err));
+  };
+
+  const cancelOrder = async () => {
+    return await OrderApi.cancelOrder(orderId);
+  };
+
   const handlePrice = price => {
     if (price !== undefined) {
       var priceFormat = '';
@@ -21,9 +31,11 @@ const Order = ({navigation, order}) => {
     return '';
   };
 
+  const images = parseImages(order.firstProduct.images);
+
   const renderButtonForOrder = order => {
-    switch (order.statusInvoice) {
-      case 'PENDING':
+    switch (order.status) {
+      case OrderStatus.PLACED_ORDER:
         return (
           <View
             style={{
@@ -49,12 +61,12 @@ const Order = ({navigation, order}) => {
                 borderWidth: 0.5,
               }}
               onPress={() => {
-                updateStatusOrder(order.invoiceID, order.statusInvoice);
+                updateStatusOrder(order.id);
               }}
             />
           </View>
         );
-      case 'PICKING':
+      case OrderStatus.IN_HANDLING:
         return (
           <View
             style={{
@@ -82,10 +94,13 @@ const Order = ({navigation, order}) => {
                 borderWidth: 0.5,
                 borderColor: 'rgb(0, 153, 0)',
               }}
+              onPress={() => {
+                updateStatusOrder(order.id);
+              }}
             />
           </View>
         );
-      case 'SHIPPING':
+      case OrderStatus.SHIPPED:
         return (
           <View
             style={{
@@ -114,12 +129,12 @@ const Order = ({navigation, order}) => {
                 borderWidth: 0.5,
               }}
               onPress={() => {
-                updateStatusOrder(order.invoiceID, order.statusInvoice);
+                updateStatusOrder(order.id);
               }}
             />
           </View>
         );
-      case 'RATING':
+      case OrderStatus.DELIVERIED:
         return (
           <View
             style={{
@@ -150,37 +165,7 @@ const Order = ({navigation, order}) => {
             />
           </View>
         );
-      case 'COMPLETED':
-        return (
-          <View
-            style={{
-              width: '90%',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingVertical: 8,
-            }}>
-            <Text style={{fontSize: 12, fontWeight: '100', width: '60%'}}>
-              Remove from my orders
-            </Text>
-            <Button
-              title="Remove"
-              titleStyle={{fontSize: 12, fontWeight: '400', color: 'red'}}
-              buttonStyle={{
-                backgroundColor: 'white',
-                height: 35,
-                width: 80,
-                borderRadius: 5,
-                borderColor: 'red',
-                borderWidth: 0.5,
-              }}
-              onPress={() => {
-                updateStatusOrder(order.invoiceID, order.statusInvoice);
-              }}
-            />
-          </View>
-        );
-      case 'CANCELLED':
+      case OrderStatus.CANCELLED:
         return (
           <View
             style={{
@@ -209,7 +194,7 @@ const Order = ({navigation, order}) => {
                 borderWidth: 0.5,
               }}
               onPress={() => {
-                updateStatusOrder(order.invoiceID, order.statusInvoice);
+                cancelOrder(order.id);
               }}
             />
           </View>
@@ -218,8 +203,7 @@ const Order = ({navigation, order}) => {
         break;
     }
   };
-  return (
-    <View style={{backgroundColor: '#fcf6e8', marginVertical: 10}}>
+  return <View style={{backgroundColor: '#fcf6e8', marginVertical: 10}}>
       <View
         style={{
           width: '100%',
@@ -237,7 +221,7 @@ const Order = ({navigation, order}) => {
               fontSize: 12,
               marginBottom: 5,
             }}>
-            {order.statusProcess}
+            {order.statusDetail}
           </Text>
         </View>
         <View
@@ -247,12 +231,12 @@ const Order = ({navigation, order}) => {
             flexDirection: 'row',
           }}>
           <Image
-            source={order.productImage}
+            source={{uri: images[0]}}
             style={{width: 55, height: 55, marginRight: 10}}
           />
           <View style={{width: '83%'}}>
             <Text style={{fontSize: 14, fontWeight: 'bold'}}>
-              {order.productName}
+              {order.firstProduct.name}
             </Text>
             <View
               style={{
@@ -265,14 +249,14 @@ const Order = ({navigation, order}) => {
                 Color: Space Gray
               </Text>
               <Text style={{fontSize: 12, fontWeight: '100'}}>
-                x{order.quantity}
+                x{order.firstProduct.name}
               </Text>
             </View>
             <View style={{width: '100%', alignItems: 'flex-end'}}>
               <View style={{flexDirection: 'row'}}>
                 <Text
                   style={{fontSize: 14, fontWeight: '300', color: '#e77733'}}>
-                  {handlePrice(order.totalPrice)}
+                  {handlePrice(order.firstProduct.total)}
                 </Text>
                 <Text
                   style={{
@@ -298,7 +282,7 @@ const Order = ({navigation, order}) => {
           backgroundColor: '#fcf6e8',
         }}
         onPress={() =>
-          navigation.navigate('OrderDetail', {invoiceID: order.invoiceID})
+          navigation.navigate('OrderDetail', {invoiceID: order.id})
         }>
         <Text style={{fontSize: 11, fontWeight: '100'}}>
           View more products...
@@ -337,7 +321,7 @@ const Order = ({navigation, order}) => {
                 fontWeight: '300',
                 color: '#e77733',
               }}>
-              {handlePrice(order.totalCost)}
+              {handlePrice(order.total)}
             </Text>
             <Text
               style={{
@@ -355,7 +339,7 @@ const Order = ({navigation, order}) => {
         {renderButtonForOrder(order)}
       </View>
     </View>
-  );
+  
 };
 
 export default Order;

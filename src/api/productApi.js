@@ -25,11 +25,25 @@ const ProductApi = {
   },
   getTrendingProducts: async () => {
     const url = `${UrlConstant.GET_TRENDING_PRODUCTS}`;
-    return axiosClient.get(url);
+    return fetch(`http://localhost:8080/${url}`)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        return responseJson
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   },
   getTopPurchasedProducts: async (filterTopProduct) => {
-    const url = `${UrlConstant.GET_TOP_PURCHASED_PRODUCTS}/${filterTopProduct}`;
-    return axiosClient.get(url);
+    const url = `${UrlConstant.GET_TOP_PURCHASED_PRODUCTS}/f469a7b4-bbd9-4c69-9ce8-fded8d5690a6`;
+    return fetch(`http://localhost:8080/${url}`)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        return responseJson
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   },
 
   getDetailedProduct: async (id) => {

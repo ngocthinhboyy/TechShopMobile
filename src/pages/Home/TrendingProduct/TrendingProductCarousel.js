@@ -1,12 +1,23 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect} from 'react';
 import { View } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { TrendingProductListData } from '../../../Data/trendingProductList';
 import TrendingProductCard from '../../Product/ProductCard/TrendingProductCard';
+import ProductApi from '../../../api/productApi';
+
 const TrendingProductCarousel = ({navigation}) => {
-  const trendingProductList = TrendingProductListData;
+  const [trendingProductList, setTrendingProductList] = useState([])
   const [index, setIndex] = useState(0);
   const isCarousel = useRef(null);
+
+  useEffect(() => {
+    async function fetchTrendingProducts() {
+      await ProductApi.getTrendingProducts()
+      .then(res => setTrendingProductList(res))
+    }
+    if (!trendingProductList || trendingProductList.length == 0) {
+      fetchTrendingProducts();
+    }
+  }, [trendingProductList]);
 
   const renderItem = ({item}) => {
     return <TrendingProductCard product={item} navigation={navigation} />;

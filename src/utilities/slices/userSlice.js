@@ -7,7 +7,9 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import UserApi from "../../api/userApi";
+import OrderApi from "../../api/orderApi";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { classifyOrder } from "../../helpers/classifyOrder";
 
 // thunk action to login and get token
 export const login = createAsyncThunk("user/login", async (params) => {
@@ -15,12 +17,23 @@ export const login = createAsyncThunk("user/login", async (params) => {
   return token;
 });
 
+// thunk action to get list order
+export const getAllUserOrders = createAsyncThunk(
+  "user/getAllUserOrders",
+  async () => {
+    const orders = await OrderApi.getAllUserOrders();
+    const result = classifyOrder(orders);
+    return result;
+  }
+);
+
 const user = createSlice({
   name: "user",
   initialState: {
     data: {
       isLoggedIn: false,
       error: "",
+      listOrders: null,
     },
   },
   reducers: {
@@ -37,7 +50,7 @@ const user = createSlice({
   },
   extraReducers: {
     [login.pending]: (state) => {},
-    [login.fulfilled]: (state, action) => {
+    [login.fulfilled]: (state) => {
       state.data.isLoggedIn = true;
       state.data.error = "";
     },
@@ -45,6 +58,11 @@ const user = createSlice({
       state.data.isLoggedIn = false
       state.data.error = "Username or password is incorrect";
     },
+    [getAllUserOrders.pending]: (state) => {},
+    [getAllUserOrders.fulfilled]: (state, action) => {
+      state.data.listOrders = action.payload;
+    },
+    [getAllUserOrders.rejected]: (state) => {},
   },
 });
 export default user.reducer;

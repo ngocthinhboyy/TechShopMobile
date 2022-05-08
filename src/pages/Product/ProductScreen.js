@@ -6,7 +6,7 @@ import ProductList from './ProductList';
 
 const ProductScreen = ({navigation, route}) => {
   const [category, setCategory] = useState(() => {
-    return route.params !== undefined ? route.params.categoryUrl : 'laptop';
+    return route.params !== undefined ? route.params.slug : 'laptop';
   });
   const changeCategory = categoryUrl => {
     if (categoryUrl === category) return;
@@ -14,8 +14,8 @@ const ProductScreen = ({navigation, route}) => {
   };
   useEffect(() => {
     if (route.params === undefined) return;
-    setCategory(route.params?.categoryUrl);
-  }, [route.params?.categoryUrl]);
+    setCategory(route.params?.slug);
+  }, [route.params?.slug]);
   return (
     <Fragment>
       <SafeAreaView style={styles.topContainer}></SafeAreaView>

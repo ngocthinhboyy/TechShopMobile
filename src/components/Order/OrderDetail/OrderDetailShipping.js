@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import {Icon} from 'react-native-elements';
+import { OrderStatus } from '../../../utilities/Constant';
 
 const OrderDetailShipping = ({order}) => {
-  //console.log('status', order.statusInvoice);
   return (
     <View
       style={{backgroundColor: '#fcf6e8', width: '100%', alignItems: 'center'}}>
@@ -36,21 +36,21 @@ const OrderDetailShipping = ({order}) => {
           <Icon
             name="storefront"
             type="material"
-            color={order.statusInvoice === 'PENDING' ? 'black' : '#ee8241'}
+            color={order.status === OrderStatus.PLACED_ORDER ? 'black' : '#ee8241'}
             size={35}
           />
           <Icon
             name="local-shipping"
             type="material-outlined"
             color={
-              order.statusInvoice === 'PENDING' ||
-              order.statusInvoice === 'PICKING'
+              order.status === OrderStatus.IN_HANDLING ||
+              order.status === OrderStatus.PLACED_ORDER
                 ? 'black'
                 : '#ee8241'
             }
             size={35}
           />
-          {order.statusInvoice === 'CANCELLED' ? (
+          {order.status === OrderStatus.CANCELLED ? (
             <Icon
               name="remove-circle-outline"
               type="material"
@@ -62,8 +62,8 @@ const OrderDetailShipping = ({order}) => {
               name="check-circle-outline"
               type="material"
               color={
-                order.statusInvoice === 'COMPLETED' ||
-                order.statusInvoice === 'RATING'
+                order.status === OrderStatus.DELIVERIED ||
+                order.status === 'RATING'
                   ? '#ee8241'
                   : 'black'
               }
@@ -85,13 +85,13 @@ const OrderDetailShipping = ({order}) => {
               width: 97,
               height: 1,
               backgroundColor: `${
-                order.statusInvoice === 'PENDING' ? 'black' : '#e77733'
+                order.status === OrderStatus.PLACE_ORDER ? 'black' : '#e77733'
               }`,
             }}></View>
           <Icon
             name="ellipse"
             type="ionicon"
-            color={order.statusInvoice === 'PENDING' ? 'black' : '#e77733'}
+            color={order.status === OrderStatus.PLACE_ORDER ? 'black' : '#e77733'}
             size={20}
           />
           <View
@@ -99,8 +99,8 @@ const OrderDetailShipping = ({order}) => {
               width: 94,
               height: 1,
               backgroundColor: `${
-                order.statusInvoice === 'PENDING' ||
-                order.statusInvoice === 'PICKING'
+                order.status === OrderStatus.PLACE_ORDER ||
+                order.status === OrderStatus.IN_HANDLING
                   ? 'black'
                   : '#e77733'
               }`,
@@ -109,8 +109,8 @@ const OrderDetailShipping = ({order}) => {
             name="ellipse"
             type="ionicon"
             color={
-              order.statusInvoice === 'PENDING' ||
-              order.statusInvoice === 'PICKING'
+              order.status === OrderStatus.PLACE_ORDER ||
+              order.status === OrderStatus.IN_HANDLING
                 ? 'black'
                 : '#e77733'
             }
@@ -121,22 +121,22 @@ const OrderDetailShipping = ({order}) => {
               width: 98,
               height: 1,
               backgroundColor:
-                order.statusInvoice === 'COMPLETED' ||
-                order.statusInvoice === 'CANCELLED' ||
-                order.statusInvoice === 'RATING'
+                order.status === OrderStatus.DELIVERIED ||
+                order.status === OrderStatus.CANCELLED ||
+                order.status === 'RATING'
                   ? '#e77733'
                   : 'black',
             }}></View>
 
-          {order.statusInvoice === 'CANCELLED' ? (
+          {order.status === OrderStatus.CANCELLED ? (
             <Icon name="ellipse" type="ionicon" color="red" size={20} />
           ) : (
             <Icon
               name="ellipse"
               type="ionicon"
               color={
-                order.statusInvoice === 'COMPLETED' ||
-                order.statusInvoice === 'RATING'
+                order.status === OrderStatus.DELIVERIED ||
+                order.status === 'RATING'
                   ? '#e77733'
                   : 'black'
               }
@@ -168,7 +168,7 @@ const OrderDetailShipping = ({order}) => {
             fontWeight: '300',
             marginTop: 5,
             marginLeft: 14,
-            color: order.statusInvoice === 'PENDING' ? 'black' : '#e77733',
+            color: order.status === OrderStatus.PLACE_ORDER ? 'black' : '#e77733',
           }}>
           Picking
         </Text>
@@ -178,15 +178,15 @@ const OrderDetailShipping = ({order}) => {
             fontWeight: '300',
             marginTop: 5,
             color:
-              order.statusInvoice === 'PENDING' ||
-              order.statusInvoice === 'PICKING'
+              order.status === OrderStatus.PLACE_ORDER ||
+              order.status === OrderStatus.IN_HANDLING
                 ? 'black'
                 : '#e77733',
           }}>
           Shipping
         </Text>
 
-        {order.statusInvoice === 'CANCELLED' ? (
+        {order.status === OrderStatus.CANCELLED ? (
           <Text
             style={{
               fontSize: 12,
@@ -205,7 +205,7 @@ const OrderDetailShipping = ({order}) => {
               marginTop: 5,
               marginRight: 10,
               color:
-                order.statusInvoice === 'COMPLETED' ||
+                order.statusInvoice === OrderStatus.DELIVERIED ||
                 order.statusInvoice === 'RATING'
                   ? '#e77733'
                   : 'black',
