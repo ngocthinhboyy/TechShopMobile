@@ -5,29 +5,37 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const UserApi = {
   login: async params => {
-    let {email, pswd} = params;
+    let {email, pswd} = params
     // const url = `${UrlConstant.LOGIN}`;
-    const data = JSON.stringify({email, pswd});
-    // console.log("hiii", url)
-    // return axiosClient
-    //   .post(url, data)
-
-    //   .then((response) => {
-    //     console.log(response)
-    //     AsyncStorage.setItem("access", response.role);
-    //     AsyncStorage.setItem("user", response.access_token);
-    //     AsyncStorage.setItem("fullname", response.fullname);
-    //     return response;
-    //   })
-    //   .catch((error) => {
-    //     return Promise.reject(error);
-    //   });
+    const data = JSON.stringify({email, pswd, fullname: ''});
     const requestOptions = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: data,
     };
     return fetch('http://localhost:8080/api/v1/auth/login', requestOptions)
+      .then(response => response.json())
+      .then(responseJson => {
+        AsyncStorage.setItem('access', responseJson.role);
+        AsyncStorage.setItem('user', responseJson.access_token);
+        AsyncStorage.setItem('fullname', responseJson.fullname);
+        return responseJson;
+      })
+      .catch(error => {
+        return Promise.reject(error);
+      });
+  },
+  loginWithFB: async params => {
+    let {email, fullname} = params;
+    // const url = `${UrlConstant.LOGIN}`;
+    const data = JSON.stringify({email, pswd: '', fullname});
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: data,
+    };
+    return fetch('http://localhost:8080/api/v1/auth/login/fb', requestOptions)
       .then(response => response.json())
       .then(responseJson => {
         AsyncStorage.setItem('access', responseJson.role);

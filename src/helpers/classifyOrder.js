@@ -1,29 +1,33 @@
-import { OrderStatus } from "../utilities/Constant";
+import {OrderStatus} from '../utilities/Constant';
 
-export const classifyOrder = (listOrders) => {
+export const classifyOrder = listOrders => {
   let filterResults = {
-    "placed-order": [],
+    'placed-order': [],
     handling: [],
     deliveried: [],
     shipped: [],
     cancelled: [],
+    rating: []
   };
-  listOrders.forEach((order) => {
+  listOrders.forEach(order => {
     switch (order.status) {
       case OrderStatus.PLACED_ORDER:
-        filterResults["placed-order"].push(order);
+        filterResults['placed-order'].push(order);
         break;
       case OrderStatus.IN_HANDLING:
-        filterResults["handling"].push(order);
+        filterResults['handling'].push(order);
         break;
-      case OrderStatus.DELIVERIED:
-        filterResults["deliveried"].push(order);
+      case OrderStatus.DELIVERIED: {
+        if (order.statusDetail === 'Reviewed')
+          filterResults['rating'].push(order);
+        else filterResults['deliveried'].push(order);
         break;
+      }
       case OrderStatus.SHIPPED:
-        filterResults["shipped"].push(order);
+        filterResults['shipped'].push(order);
         break;
       case OrderStatus.CANCELLED:
-        filterResults["cancelled"].push(order);
+        filterResults['cancelled'].push(order);
         break;
       default:
         break;

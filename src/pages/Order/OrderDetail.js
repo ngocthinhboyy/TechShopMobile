@@ -1,26 +1,24 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import React, {Fragment, useEffect, useState} from 'react';
+import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import OrderDetailProduct from '../../components/Order/OrderDetail/OrderDetailProduct';
 import OrderDetailShipping from '../../components/Order/OrderDetail/OrderDetailShipping';
 import OrderDetailHeader from './OrderDetailHeader';
+import OrderApi from '../../api/orderApi';
+import OrderRatingModal from '../../components/Order/OrderDetail/OrderRatingModal';
+import {OrderStatus} from '../../utilities/Constant';
 
 const OrderDetail = ({navigation, route}) => {
   const [order, setOrder] = useState();
-  const orderId = parseInt(route.params.invoiceID)
-
+  const orderId = route.params.invoiceID;
+  const viewReview = route.params.viewReview;
   useEffect(() => {
     const getDetailedOrder = async () => {
-      await OrderApi.getOrder(orderId)
-        .then((res) => {
-          setOrder(res);
-        })
-        .catch(() => {
-          setOrder(null);
-        });
+      await OrderApi.getOrder(orderId).then(res => {
+        setOrder(res);
+      });
     };
     getDetailedOrder();
   }, [orderId]);
-
   return (
     <Fragment>
       <SafeAreaView style={styles.topContainer}></SafeAreaView>
@@ -28,16 +26,25 @@ const OrderDetail = ({navigation, route}) => {
         <View style={styles.headerNavbar}>
           <OrderDetailHeader navigation={navigation} />
         </View>
-        <View style={styles.homeScreenContent}>
-          <ScrollView contentContainerStyle={styles.scrollView}>
-            {order === undefined ? null : (
+        {order ? (
+          <View style={styles.homeScreenContent}>
+            <ScrollView contentContainerStyle={styles.scrollView}>
               <React.Fragment>
                 <OrderDetailShipping order={order} />
                 <OrderDetailProduct order={order} />
+                {order.status === OrderStatus.DELIVERIED ? (
+                  // &&
+                  // order.statusDetail !== 'Reviewed'
+                  <OrderRatingModal
+                    order={order}
+                    orderId={orderId}
+                    viewReview={viewReview}
+                  />
+                ) : null}
               </React.Fragment>
-            )}
-          </ScrollView>
-        </View>
+            </ScrollView>
+          </View>
+        ) : null}
       </SafeAreaView>
     </Fragment>
   );

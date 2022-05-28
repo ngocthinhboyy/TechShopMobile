@@ -29,7 +29,7 @@ const ProductDetail = ({navigation, route}) => {
   const images = product && parseImages(product.images);
 
   const [recommendProductList, setRecommendProductList] = useState([]);
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(4);
   const isCarousel = useRef(null);
 
   const scrollRef = useRef();
@@ -41,19 +41,14 @@ const ProductDetail = ({navigation, route}) => {
     });
   };
 
-  useEffect(() => {
-    async function fetchRecommendProducts() {
-      await ProductApi.getTrendingProducts().then(res => {
-        setRecommendProductList(res);
-      });
-    }
-    if (!recommendProductList || recommendProductList.length == 0) {
-      fetchRecommendProducts();
-    }
-  }, [recommendProductList]);
-
   const renderItem = ({item}) => {
-    return <TrendingProductCard product={item} navigation={navigation} onPressTouch={onPressTouch} />;
+    return (
+      <TrendingProductCard
+        product={item}
+        navigation={navigation}
+        onPressTouch={onPressTouch}
+      />
+    );
   };
 
   const addProductToCart = product => {
@@ -71,12 +66,21 @@ const ProductDetail = ({navigation, route}) => {
   useEffect(() => {
     const productId = route.params.productId;
     const fetchProduct = async () => {
-      return await ProductApi.getDetailedProduct(productId);
+      return ProductApi.getDetailedProduct(productId);
     };
 
     fetchProduct()
       .then(response => {
         setProduct(response);
+        ProductApi.getRecommendProductIds(productId).then(res => {
+          if (res) {
+            return ProductApi.getRecommendProductDetails(res.list_result)
+              .then(res => {
+                setRecommendProductList(res.filter(item => item));
+              })
+              .catch(() => setRecommendProductList([]));
+          }
+        }).catch(err => console.log(err))
       })
       .catch(() => {
         setProduct(null);
@@ -97,27 +101,6 @@ const ProductDetail = ({navigation, route}) => {
       return price.toString().concat(priceFormat);
     }
     return '';
-  };
-
-  const renderShortTech = productShortTech => {
-    var shortTech = productShortTech.replace(/'/g, '"');
-    shortTech = JSON.parse(shortTech);
-    return shortTech.map((item, index) => (
-      <View
-        key={index}
-        style={{marginVertical: 8, flexDirection: 'row', alignItems: 'center'}}>
-        <Icon
-          reverse
-          name="ellipse-sharp"
-          type="ionicon"
-          size={0.2}
-          color="black"
-        />
-        <Text style={{fontSize: 14, fontWeight: '300', marginLeft: 20}}>
-          {item}
-        </Text>
-      </View>
-    ));
   };
 
   const renderDescription = productDescription => {
@@ -343,26 +326,6 @@ const ProductDetail = ({navigation, route}) => {
                     />
                   </View>
                 </View>
-                {/* <View
-                  style={{
-                    width: '50%',
-                    height: 1,
-                    backgroundColor: '#a6a7a6',
-                    marginTop: 30,
-                  }}></View> 
-                <View
-                  style={{
-                    width: '90%',
-                    marginTop: 15,
-                  }}>
-                  <Text
-                    style={{color: '#e77733', fontSize: 20, marginBottom: 10}}>
-                    General Information
-                  </Text>
-                  <View style={{marginLeft: 20}}>
-                    {renderShortTech(product?.shortTech)}
-                  </View>
-                </View> */}
                 <View
                   style={{
                     width: '50%',
@@ -390,77 +353,95 @@ const ProductDetail = ({navigation, route}) => {
                     backgroundColor: '#a6a7a6',
                     marginTop: 30,
                   }}></View>
-                <View
-                  style={{
-                    width: '90%',
-                    marginTop: 25,
-                  }}>
-                  <Text
-                    style={{color: '#e77733', fontSize: 20, marginBottom: 10}}>
-                    General Specifications
-                  </Text>
+                {product.specifications.length > 0 && (
+                  <>
                   <View
                     style={{
-                      marginTop: 15,
-                      paddingVertical: 15,
-                      paddingLeft: 20,
-                      backgroundColor: '#f7deab',
-                      borderRadius: 20,
-                      width: '100%',
-                      shadowColor: '#000',
-                      shadowOffset: {width: 0, height: 2},
-                      shadowOpacity: 0.25,
-                      shadowRadius: 10,
+                      width: '90%',
+                      marginTop: 25,
                     }}>
-                    {renderSpecifications(product.specifications)}
+                    <Text
+                      style={{
+                        color: '#e77733',
+                        fontSize: 20,
+                        marginBottom: 10,
+                      }}>
+                      General Specifications
+                    </Text>
+                    <View
+                      style={{
+                        marginTop: 15,
+                        paddingVertical: 15,
+                        paddingLeft: 20,
+                        backgroundColor: '#f7deab',
+                        borderRadius: 20,
+                        width: '100%',
+                        shadowColor: '#000',
+                        shadowOffset: {width: 0, height: 2},
+                        shadowOpacity: 0.25,
+                        shadowRadius: 10,
+                      }}>
+                      {renderSpecifications(product.specifications)}
+                    </View>
                   </View>
-                </View>
-                <View
-                  style={{
-                    width: '50%',
-                    height: 1,
-                    backgroundColor: '#a6a7a6',
-                    marginTop: 30,
-                  }}></View>
-                <View
-                  style={{
-                    width: '90%',
-                    marginTop: 25,
-                  }}>
-                  <Text
-                    style={{color: '#e77733', fontSize: 20, marginBottom: 10}}>
-                    Related Products
-                  </Text>
-                  <Carousel
-                    ref={isCarousel}
-                    layout={'default'}
-                    data={recommendProductList}
-                    onSnapToItem={index => setIndex(index)}
-                    sliderWidth={350}
-                    itemWidth={130}
-                    renderItem={renderItem}
-                  />
-                  <Pagination
-                    containerStyle={{
-                      backgroundColor: '#fcebc6',
-                      padding: 0,
-                      margin: 0,
-                    }}
-                    dotsLength={recommendProductList.length}
-                    carouselRef={isCarousel}
-                    activeDotIndex={index}
-                    dotStyle={{
-                      width: 8,
-                      height: 1,
-                      borderRadius: 5,
-                      marginHorizontal: -10,
-                      backgroundColor: 'rgba(0, 0, 0, 1)',
-                    }}
-                    inactiveDotOpacity={0.3}
-                    inactiveDotScale={0.5}
-                    tappableDots={true}
-                  />
-                </View>
+                  <View
+                      style={{
+                        width: '50%',
+                        height: 1,
+                        backgroundColor: '#a6a7a6',
+                        marginTop: 30,
+                      }}></View>
+                  </>
+                )}
+
+                {recommendProductList.length > 0 ? (
+                  <>
+                    
+                    <View
+                      style={{
+                        width: '90%',
+                        marginTop: 25,
+                      }}>
+                      <Text
+                        style={{
+                          color: '#e77733',
+                          fontSize: 20,
+                          marginBottom: 10,
+                        }}>
+                        Related Products
+                      </Text>
+                      <Carousel
+                        ref={isCarousel}
+                        layout={'default'}
+                        data={recommendProductList}
+                        onSnapToItem={index => setIndex(index)}
+                        sliderWidth={350}
+                        itemWidth={130}
+                        renderItem={renderItem}
+                      />
+                      <Pagination
+                        containerStyle={{
+                          backgroundColor: '#fcebc6',
+                          padding: 0,
+                          margin: 0,
+                        }}
+                        dotsLength={recommendProductList.length}
+                        carouselRef={isCarousel}
+                        activeDotIndex={index}
+                        dotStyle={{
+                          width: 8,
+                          height: 1,
+                          borderRadius: 5,
+                          marginHorizontal: -10,
+                          backgroundColor: 'rgba(0, 0, 0, 1)',
+                        }}
+                        inactiveDotOpacity={0.3}
+                        inactiveDotScale={0.5}
+                        tappableDots={true}
+                      />
+                    </View>
+                  </>
+                ) : null}
               </ScrollView>
             </View>
           </>

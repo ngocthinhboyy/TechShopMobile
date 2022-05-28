@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
-import { getAllUserOrders } from "../../utilities/slices/userSlice";
+import {getAllUserOrders} from '../../utilities/slices/userSlice';
 
 const PurchasedOrderAccount = ({navigation}) => {
   const {listOrders} = useSelector(state => state.user.data);
@@ -13,9 +13,7 @@ const PurchasedOrderAccount = ({navigation}) => {
     async function fetchOrders() {
       await dispatch(getAllUserOrders());
     }
-    if (!listOrders) {
-      fetchOrders();
-    }
+    fetchOrders();
   }, [dispatch]);
 
   return listOrders ? (
@@ -71,9 +69,7 @@ const PurchasedOrderAccount = ({navigation}) => {
         </TouchableOpacity>
       </View>
     </View>
-  ) : (
-    null
-  );
+  ) : null;
 };
 
 export default PurchasedOrderAccount;

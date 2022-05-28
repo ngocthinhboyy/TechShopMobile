@@ -4,15 +4,16 @@ import parseImages from '../../../helpers/parseImages';
 import handlePrice from '../../../helpers/formatPrice';
 
 const TrendingProductCard = ({product, navigation, onPressTouch}) => {
-  const images = parseImages(product.images)
+  const images = parseImages(product.images);
 
   return (
     <TouchableOpacity
       onPress={() => {
         navigation.navigate('ProductDetail', {productId: product.id});
-        onPressTouch();
-      }
-      }>
+        if (onPressTouch) {
+          onPressTouch();
+        }
+      }}>
       <View
         style={{
           backgroundColor: '#fcebc6',
@@ -26,7 +27,8 @@ const TrendingProductCard = ({product, navigation, onPressTouch}) => {
           source={{uri: images[0]}}
           style={{width: 110, height: 110, borderRadius: 10}}
         />
-        <Text numberOfLines={1}
+        <Text
+          numberOfLines={1}
           style={{color: 'black', fontSize: 15, fontWeight: '300', margin: 4}}>
           {product.name}
         </Text>

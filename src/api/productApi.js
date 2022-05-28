@@ -1,231 +1,273 @@
-import * as UrlConstant from "../utilities/UrlConstant";
-import axiosClient from "./axiosClient";
-import axiosClientAuthen from "./axiosClientAuthen";
+import * as UrlConstant from '../utilities/UrlConstant';
+import axiosClient from './axiosClient';
+import axiosClientAuthen from './axiosClientAuthen';
 
 const ProductApi = {
-  getAllProducts: async (params) => {
+  getAllProducts: async params => {
     const url = `${UrlConstant.GET_ALL_PRODUCTS}`;
     return fetch('http://localhost:8080/api/v1/product')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        return responseJson
+      .then(response => response.json())
+      .then(responseJson => {
+        return responseJson;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
       });
   },
-  remove: (id) => {
+  remove: id => {
     const url = `${UrlConstant.REMOVE_PRODUCT}/${id}`;
     return axiosClient.delete(url);
   },
-  getProductsByCategory: async (params) => {
-    let { category } = params;
+  getProductsByCategory: async params => {
+    let {category} = params;
     const url = `${UrlConstant.GET_PRODUCTS_BY_CATEGORY}/category/${category}`;
     return axiosClient.get(url);
   },
   getTrendingProducts: async () => {
     const url = `${UrlConstant.GET_TRENDING_PRODUCTS}`;
     return fetch(`http://localhost:8080/${url}`)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        return responseJson
+      .then(response => response.json())
+      .then(responseJson => {
+        return responseJson;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
       });
   },
-  getTopPurchasedProducts: async (filterTopProduct) => {
+  getTopPurchasedProducts: async filterTopProduct => {
     const url = `${UrlConstant.GET_TOP_PURCHASED_PRODUCTS}/f469a7b4-bbd9-4c69-9ce8-fded8d5690a6`;
     return fetch(`http://localhost:8080/${url}`)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        return responseJson
+      .then(response => response.json())
+      .then(responseJson => {
+        return responseJson;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
       });
   },
 
-  getDetailedProduct: async (id) => {
+  getDetailedProduct: async id => {
     const url = `${UrlConstant.GET_DETAILED_PRODUCT}/${id}`;
     return fetch(`http://localhost:8080/api/v1/product/${id}`)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        return responseJson
+      .then(response => response.json())
+      .then(responseJson => {
+        return responseJson;
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
       });
   },
-  getAdminDetailedProduct: async (id) => {
+  getRecommendProductIds: async id => {
+    console.log('call python server with id: ', id);
+    const requestOptions = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const url = `http://localhost:9090/mobile/${id}`;
+    return fetch(url, requestOptions)
+      .then(response => {
+        if (response.status == 200) {
+          return response.json();
+        } else {
+          return response;
+        }
+      })
+      .then(responseJson => {
+        return responseJson;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+  getRecommendProductDetails: async listIds => {
+    console.log('call java server: ', listIds);
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(listIds.map(id => id.toString())),
+    };
+    return fetch('http://localhost:8080/api/v1/product/rcm', requestOptions)
+      .then(response => response.json())
+      .then(responseJson => {
+        return responseJson;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+  getAdminDetailedProduct: async id => {
     const url = `${UrlConstant.GET_DETAILED_PRODUCT}/${id}`;
     return axiosClientAuthen.get(url);
   },
-  getRelatedCategoryPro: async (id) => {
+  getRelatedCategoryPro: async id => {
     const url = `${UrlConstant.GET_RELATED_CATEGORY_PRODUCT}/${id}`;
     return axiosClient.get(url);
   },
-  getRelatedBrandPro: async (id) => {
+  getRelatedBrandPro: async id => {
     const url = `${UrlConstant.GET_RELATED_BRAND_PRODUCT}/${id}`;
     return axiosClient.get(url);
   },
 
-  getSpecsPro: async (id) => {
+  getSpecsPro: async id => {
     const url = `${UrlConstant.GET_SPECS_PRODUCT}/${id}`;
     return axiosClient.get(url);
   },
-  getFullDescriptionPro: async (id) => {
+  getFullDescriptionPro: async id => {
     const url = `${UrlConstant.GET_FULL_DESCRIP_PRODUCT}/${id}`;
     return axiosClient.get(url);
   },
-  searchProducts: async (info) => {
+  searchProducts: async info => {
     const url = `${UrlConstant.SEARCH_PRODUCTS}?q=${info}`;
     return axiosClient.get(url);
   },
-  searchProductsIncludeFilter: async (params) => {
-    let { keyword, order } = params;
+  searchProductsIncludeFilter: async params => {
+    let {keyword, order} = params;
     const url = `${UrlConstant.SEARCH_PRODUCTS}?q=${keyword}&sortOrder=${order}`;
     return axiosClient.get(url);
   },
   getProposedProducts: async () => {
     const result = [
       {
-        id: "1",
-        img: "",
-        name: "Apple Watch",
+        id: '1',
+        img: '',
+        name: 'Apple Watch',
         images:
           "['images/headphone4.jpeg','images/headphone6.jpeg','images/headphone8.jpeg','images/headphone1.jpeg']",
         price: 10000000,
         description:
-          "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, tempore veniam ullam hic architecto maiores! Laborum accusamus reiciendis magni consectetur incidunt, suscipit, unde qui assumenda ratione voluptas, esse fugiat ipsam.",
-        EXP: "2021-12-01 00:00:00",
+          'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, tempore veniam ullam hic architecto maiores! Laborum accusamus reiciendis magni consectetur incidunt, suscipit, unde qui assumenda ratione voluptas, esse fugiat ipsam.',
+        EXP: '2021-12-01 00:00:00',
       },
       {
-        id: "2",
-        img: "",
-        name: "IPhone X",
+        id: '2',
+        img: '',
+        name: 'IPhone X',
         images:
           "['images/headphone1.jpeg','images/headphone6.jpeg','images/headphone8.jpeg','images/headphone1.jpeg']",
         price: 10000000,
         description:
-          "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, tempore veniam ullam hic architecto maiores! Laborum accusamus reiciendis magni consectetur incidunt, suscipit, unde qui assumenda ratione voluptas, esse fugiat ipsam.",
-        EXP: "2021-12-02 00:00:00",
+          'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, tempore veniam ullam hic architecto maiores! Laborum accusamus reiciendis magni consectetur incidunt, suscipit, unde qui assumenda ratione voluptas, esse fugiat ipsam.',
+        EXP: '2021-12-02 00:00:00',
       },
       {
-        id: "3",
-        img: "",
-        name: "IPhone XR",
+        id: '3',
+        img: '',
+        name: 'IPhone XR',
         images:
           "['images/headphone2.jpeg','images/headphone6.jpeg','images/headphone8.jpeg','images/headphone1.jpeg']",
         price: 10000000,
         description:
-          "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, tempore veniam ullam hic architecto maiores! Laborum accusamus reiciendis magni consectetur incidunt, suscipit, unde qui assumenda ratione voluptas, esse fugiat ipsam.",
-        EXP: "2021-12-23 00:00:00",
+          'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, tempore veniam ullam hic architecto maiores! Laborum accusamus reiciendis magni consectetur incidunt, suscipit, unde qui assumenda ratione voluptas, esse fugiat ipsam.',
+        EXP: '2021-12-23 00:00:00',
       },
       {
-        id: "4",
-        img: "",
-        name: "IPhone 12",
+        id: '4',
+        img: '',
+        name: 'IPhone 12',
         images:
           "['images/headphone3.jpeg','images/headphone6.jpeg','images/headphone8.jpeg','images/headphone1.jpeg']",
         price: 10000000,
         description:
-          "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, tempore veniam ullam hic architecto maiores! Laborum accusamus reiciendis magni consectetur incidunt, suscipit, unde qui assumenda ratione voluptas, esse fugiat ipsam.",
-        EXP: "2021-12-01 00:00:00",
+          'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, tempore veniam ullam hic architecto maiores! Laborum accusamus reiciendis magni consectetur incidunt, suscipit, unde qui assumenda ratione voluptas, esse fugiat ipsam.',
+        EXP: '2021-12-01 00:00:00',
       },
       {
-        id: "5",
-        img: "",
-        name: "Macbook Pro",
+        id: '5',
+        img: '',
+        name: 'Macbook Pro',
         images:
           "['images/headphone6.jpeg','images/headphone6.jpeg','images/headphone8.jpeg','images/headphone1.jpeg']",
         price: 10000000,
         description:
-          "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, tempore veniam ullam hic architecto maiores! Laborum accusamus reiciendis magni consectetur incidunt, suscipit, unde qui assumenda ratione voluptas, esse fugiat ipsam.",
-        EXP: "2021-12-10 00:00:00",
+          'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, tempore veniam ullam hic architecto maiores! Laborum accusamus reiciendis magni consectetur incidunt, suscipit, unde qui assumenda ratione voluptas, esse fugiat ipsam.',
+        EXP: '2021-12-10 00:00:00',
       },
       {
-        id: "6",
-        img: "",
-        name: "Macbook Air",
+        id: '6',
+        img: '',
+        name: 'Macbook Air',
         images:
           "['images/headphone7.jpeg','images/headphone6.jpeg','images/headphone8.jpeg','images/headphone1.jpeg']",
         price: 10000000,
         description:
-          "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, tempore veniam ullam hic architecto maiores! Laborum accusamus reiciendis magni consectetur incidunt, suscipit, unde qui assumenda ratione voluptas, esse fugiat ipsam.",
-        EXP: "2021-12-05 00:00:00",
+          'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, tempore veniam ullam hic architecto maiores! Laborum accusamus reiciendis magni consectetur incidunt, suscipit, unde qui assumenda ratione voluptas, esse fugiat ipsam.',
+        EXP: '2021-12-05 00:00:00',
       },
       {
-        id: "7",
-        img: "",
-        name: "Airpod 2",
+        id: '7',
+        img: '',
+        name: 'Airpod 2',
         images:
           "['images/headphone8.jpeg','images/headphone6.jpeg','images/headphone8.jpeg','images/headphone1.jpeg']",
         price: 10000000,
         description:
-          "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, tempore veniam ullam hic architecto maiores! Laborum accusamus reiciendis magni consectetur incidunt, suscipit, unde qui assumenda ratione voluptas, esse fugiat ipsam.",
-        EXP: "2021-12-10 00:00:00",
+          'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, tempore veniam ullam hic architecto maiores! Laborum accusamus reiciendis magni consectetur incidunt, suscipit, unde qui assumenda ratione voluptas, esse fugiat ipsam.',
+        EXP: '2021-12-10 00:00:00',
       },
     ];
     return result;
   },
 
-  getProductSpecificationAttribute: async (params) => {
+  getProductSpecificationAttribute: async params => {
     const url = `${UrlConstant.GET_EXISTED_SPECIFICATION}/${params.category}/${params.brand}`;
     return axiosClient.get(url);
   },
-  updateProductInfo: async (product) => {
+  updateProductInfo: async product => {
     const url = `${UrlConstant.UPDATE_PRODUCT}`;
     const body = JSON.stringify(product);
 
     return axiosClientAuthen
       .put(url, body)
 
-      .then((response) => {
+      .then(response => {
         return response;
       })
-      .catch((error) => Promise.reject(error));
+      .catch(error => Promise.reject(error));
   },
-  addProduct: async (product) => {
+  addProduct: async product => {
     const url = `${UrlConstant.ADD_NEW_PRODUCT}`;
     const body = JSON.stringify(product);
     return axiosClientAuthen
       .post(url, body)
 
-      .then((response) => {
+      .then(response => {
         return Promise.resolve(response);
       })
-      .catch((error) => Promise.reject(error));
+      .catch(error => Promise.reject(error));
   },
-  updateSpecsStatus: (id) => {
+  updateSpecsStatus: id => {
     const url = `${UrlConstant.UPDATE_SPECIFICATION_STATUS}/${id}`;
 
     return axiosClientAuthen
       .put(url)
-      .then((response) => {
+      .then(response => {
         return response;
       })
-      .catch((error) => Promise.reject(error));
+      .catch(error => Promise.reject(error));
   },
-  getAffectProduct: (id) => {
+  getAffectProduct: id => {
     const url = `${UrlConstant.GET_AFFECTED_PRODUCTS}/${id}`;
 
     return axiosClient
       .get(url)
-      .then((response) => {
+      .then(response => {
         return response;
       })
-      .catch((error) => Promise.reject(error));
+      .catch(error => Promise.reject(error));
   },
-  removeAttribute: (id) => {
+  removeAttribute: id => {
     const url = `${UrlConstant.REMOVE_PRODUCT_ATTRIBUTE}/${id}`;
 
     return axiosClientAuthen
       .delete(url)
-      .then((response) => {
+      .then(response => {
         return response;
       })
-      .catch((error) => Promise.reject(error));
+      .catch(error => Promise.reject(error));
   },
 };
 export default ProductApi;
