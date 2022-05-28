@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
-import { getAllUserOrders } from "../../utilities/slices/userSlice";
+import {getAllUserOrders} from '../../utilities/slices/userSlice';
 
 const PurchasedOrderAccount = ({navigation}) => {
   const {listOrders} = useSelector(state => state.user.data);
@@ -13,9 +13,7 @@ const PurchasedOrderAccount = ({navigation}) => {
     async function fetchOrders() {
       await dispatch(getAllUserOrders());
     }
-    if (!listOrders) {
-      fetchOrders();
-    }
+    fetchOrders();
   }, [dispatch]);
 
   return listOrders ? (
@@ -62,18 +60,16 @@ const PurchasedOrderAccount = ({navigation}) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('Order', {tabRender: 'Completed'})
+            navigation.navigate('Order', {tabRender: 'Rating'})
           }>
           <Icon name="star-outline" type="material" color="#ee8241" size={40} />
           <Text style={{marginTop: 20, fontSize: 13, fontWeight: '200'}}>
-            Rating ({listOrders.deliveried.length})
+            Rating ({listOrders.rating.length})
           </Text>
         </TouchableOpacity>
       </View>
     </View>
-  ) : (
-    null
-  );
+  ) : null;
 };
 
 export default PurchasedOrderAccount;

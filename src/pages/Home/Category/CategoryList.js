@@ -22,12 +22,12 @@ const CategoryList = ({navigation}) => {
     <View style={styles.categoryList}>
       <View style={styles.categoryContainer}>
         {categoryList.slice(0, 4).map(item => (
-          <Category category={item} navigation={navigation} />
+          <Category category={item} navigation={navigation} key={item.id}/>
         ))}
       </View>
       <View style={styles.categoryContainer}>
         {categoryList.slice(4, 8).map(item => (
-          <Category category={item} navigation={navigation} />
+          <Category category={item} navigation={navigation}  key={item.id}/>
         ))}
       </View>
     </View>

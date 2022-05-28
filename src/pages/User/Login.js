@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
-import {Text, View} from 'react-native';
-import {Button, Icon, Input} from 'react-native-elements';
-import {useDispatch} from 'react-redux';
-import {login} from '../../utilities/slices/userSlice';
-import {useSelector} from 'react-redux';
+import React, { useState } from 'react';
+import { Text, View } from 'react-native';
+import { Button, Icon, Input } from 'react-native-elements';
+import {
+  AccessToken, LoginButton
+} from 'react-native-fbsdk-next';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, loginWithFB, setFBToken } from '../../utilities/slices/userSlice';
 
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [info, setInfo] = useState({});
-
   const {error} = useSelector(state => state.user.data);
 
   const dispatch = useDispatch();
@@ -23,6 +24,24 @@ const Login = () => {
     }
     submitToLogin();
   };
+  const initUser = token => {
+    fetch(
+      'https://graph.facebook.com/v2.5/me?fields=email,name,friends&access_token=' +
+        token,
+    )
+      .then(response => response.json())
+      .then(json => {
+        async function submitToLoginFB(info) {
+          await dispatch(loginWithFB(info));
+        }
+        submitToLoginFB({
+          email: json.id,
+          fullname: json.name,
+        });
+      })
+      .catch(err => err);
+  };
+  
   return (
     <View
       style={{
@@ -100,9 +119,7 @@ const Login = () => {
           </Text>
           {error ? (
             <Text style={{fontSize: 12, fontWeight: '300'}}>{error}</Text>
-          ) : (
-            null
-          )}
+          ) : null}
         </View>
       </View>
       <View style={{backgroundColor: '#fcf6e8', marginBottom: 30}}>
@@ -146,7 +163,7 @@ const Login = () => {
         />
       </View>
       <View style={{backgroundColor: '#fcf6e8', marginBottom: 30}}>
-        <Button
+        {/* <Button
           title="  Continue with Facebook"
           titleStyle={{fontSize: 15, fontWeight: '600'}}
           buttonStyle={{
@@ -157,6 +174,47 @@ const Login = () => {
           icon={
             <Icon name="logo-facebook" size={20} color="white" type="ionicon" />
           }
+        /> */}
+        {/* <Button
+        title={'Login with Facebook'}
+        onPress={() => {
+          LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+            function (result) {
+              console.log("hiii")
+              if (result.isCancelled) {
+                alert('Login Cancelled ' + JSON.stringify(result));
+              } else {
+                console.log(result)
+                alert(
+                  'Login success with  permisssions: ' +
+                    result.grantedPermissions.toString(),
+                );
+                alert('Login Success ' + result.toString());
+              }
+            },
+            function (error) {
+              alert('Login failed with error: ' + error);
+            },
+          );
+        }}
+      /> */}
+
+        <LoginButton
+          publishPermissions={['publish_actions']}
+          permissions={['public_profile', 'email', 'user_gender']}
+          onLoginFinished={(error, result) => {
+            if (error) {
+              console.log('login has error: ', result.error);
+            } else if (result.isCancelled) {
+              console.log('login is cancelled.');
+            } else {
+              AccessToken.getCurrentAccessToken().then(data => {
+                const {accessToken} = data;
+                dispatch(setFBToken(accessToken))
+                initUser(accessToken);
+              });
+            }
+          }}
         />
       </View>
     </View>

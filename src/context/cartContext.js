@@ -47,7 +47,7 @@ const CartProvider = ({children}) => {
     setCartData(newCart);
   };
   const clearCart = () => {
-    AsyncStorage.setItem('cart', null);
+    AsyncStorage.setItem('cart', "");
     setCartData([]);
   };
   return (

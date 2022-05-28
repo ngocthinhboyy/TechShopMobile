@@ -2,13 +2,16 @@ import React, {useContext, useRef, useState} from 'react';
 import {View, Text} from 'react-native';
 import {Icon, Button} from 'react-native-elements';
 import {CartContext} from '../../context/cartContext';
-import OrderApi from "../../api/orderApi";
+import OrderApi from '../../api/orderApi';
+import { useDispatch } from 'react-redux';
+import {getAllUserOrders} from '../../utilities/slices/userSlice';
 
 const BuyCart = ({totalPrice, navigation}) => {
   const [isDisabled, setIsDisabled] = useState(false);
   const {cartData, clearCart} = useContext(CartContext);
+  const dispatch = useDispatch()
 
-  const order = () => {
+  const order = async () => {
     if (isDisabled) return;
     setIsDisabled(true);
 
@@ -23,11 +26,10 @@ const BuyCart = ({totalPrice, navigation}) => {
     let data = {
       detailedInvoices: orderInfo,
       shippingInfo: {
-          fullname: 'Phạm Ngọc Thịnh',
-          phone: '0904588091',
-          address:
-            '207, Đường C25, Phường Tăng Nhơn Phú B',
-        },
+        fullname: 'Phạm Ngọc Thịnh',
+        phone: '0904588091',
+        address: '207, Đường C25, Phường Tăng Nhơn Phú B',
+      },
     };
 
     const placeOrder = async (data) => {
@@ -35,15 +37,15 @@ const BuyCart = ({totalPrice, navigation}) => {
       .then((res) => {
           clearCart();
           setIsDisabled(false);
+          dispatch(getAllUserOrders());
         })
         .catch((err) => {
           setIsDisabled(false);
         });
+      };
+      await placeOrder(data);
+      navigation.navigate('Order', { tabRender: 'Pending' });
     };
-    placeOrder(data);
-  };
-
-
 
   const handlePrice = price => {
     if (price !== undefined) {
@@ -110,7 +112,7 @@ const BuyCart = ({totalPrice, navigation}) => {
             backgroundColor: `${!isDisabled ? '#e77733' : 'rgb(0,153,0)'}`,
             height: 35,
           }}
-          onPress={() => order()}
+          onPress={order}
         />
       </View>
     </View>

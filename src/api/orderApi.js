@@ -18,11 +18,7 @@ const OrderApi = {
       body: JSON.stringify(params),
     };
     return fetch('http://localhost:8080/api/v1/invoice', requestOptions)
-      .then(response => response.json())
-
-      .then(responseJson => {
-        return responseJson;
-      })
+      .then(responseJson => responseJson)
       .catch(error => {
         return Promise.reject(error);
       });
@@ -47,6 +43,7 @@ const OrderApi = {
       });
   },
   getOrder: async id => {
+    const token = await AsyncStorage.getItem('user');
     const url = `http://localhost:8080${UrlConstant.GET_DETAILED_ORDER}/${id}`;
     const requestOptions = {
       method: 'GET',
@@ -56,17 +53,17 @@ const OrderApi = {
       },
     };
     return fetch(url, requestOptions)
-      .then(response => response.json())
-      .then(responseJson => {
-        return responseJson;
-      })
-      .catch(error => {
-        return Promise.reject(error);
-      });
+    .then(response => response.json())
+    .then(responseJson => {
+      return responseJson;
+    })
+    .catch(error => {
+      return Promise.reject(error);
+    });
   },
   cancelOrder: async id => {
     const url = `http://localhost:8080${UrlConstant.CANCEL_ORDER}/${id}`;
-
+    const token = await AsyncStorage.getItem('user');
     const requestOptions = {
       method: 'PUT',
       headers: {
@@ -76,9 +73,8 @@ const OrderApi = {
       body: JSON.stringify(''),
     };
     return fetch(url, requestOptions)
-      .then(response => response.json())
-      .then(responseJson => {
-        return responseJson;
+      .then(response => {
+        return response;
       })
       .catch(error => {
         return Promise.reject(error);
@@ -86,6 +82,7 @@ const OrderApi = {
   },
   updateOrderStatus: async id => {
     const url = `http://localhost:8080${UrlConstant.UPDATE_ORDER_STATUS}/${id}`;
+    const token = await AsyncStorage.getItem('user');
     const requestOptions = {
       method: 'PUT',
       headers: {
@@ -94,13 +91,10 @@ const OrderApi = {
       },
     };
     return fetch(url, requestOptions)
-      .then(response => response.json())
-      .then(responseJson => {
-        return responseJson;
-      })
+      .then(response => response)
       .catch(error => {
         return Promise.reject(error);
       });
-  }
+  },
 };
 export default OrderApi;

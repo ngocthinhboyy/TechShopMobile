@@ -9,6 +9,7 @@ import Pending from './OrderTabNavigate/Pending';
 import Picking from './OrderTabNavigate/Picking';
 import Shipping from './OrderTabNavigate/Shipping';
 import {getAllUserOrders} from '../../utilities/slices/userSlice';
+import Rating from './OrderTabNavigate/Rating';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -21,10 +22,9 @@ const OrderScreen = ({navigation, route}) => {
     async function fetchOrders() {
       await dispatch(getAllUserOrders());
     }
-    if (!listOrders) {
-      fetchOrders();
-    }
-  }, []);
+
+    fetchOrders();
+  }, [route]);
 
   useEffect(() => {
     if (route?.tabRender === undefined) return;
@@ -147,6 +147,14 @@ const OrderScreen = ({navigation, route}) => {
             {() => (
               <Completed
                 completedOrderList={listOrders.deliveried}
+                navigation={navigation}
+              />
+            )}
+          </Tab.Screen>
+          <Tab.Screen name="Rating">
+            {() => (
+              <Rating
+                ratingOrderList={listOrders.rating}
                 navigation={navigation}
               />
             )}

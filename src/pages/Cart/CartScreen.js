@@ -51,7 +51,10 @@ const CartScreen = ({navigation}) => {
             shadowRadius: 1.5,
           }}>
           <View style={{backgroundColor: '#fcf6e8', width: '90%'}}>
-            <BuyCart totalPrice={caculateTotalPrice(cartData)} />
+            <BuyCart
+              totalPrice={caculateTotalPrice(cartData)}
+              navigation={navigation}
+            />
           </View>
         </View>
       </SafeAreaView>

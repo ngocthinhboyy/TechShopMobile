@@ -6,7 +6,6 @@ import UserScreen from './UserScreen';
 
 const UserStack = () => {
   const {isLoggedIn}  = useSelector((state) => state.user.data);
-    console.log(isLoggedIn)
   return (
     <Stack.Navigator
     screenOptions={{
