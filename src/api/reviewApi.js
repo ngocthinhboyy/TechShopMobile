@@ -39,9 +39,7 @@ const ReviewApi = {
     const requestOptions = {
       method: 'POST',
       'content-type': 'application/json',
-      body: JSON.stringify({
-        sentences: ['tốt', 'không tốt'],
-      }),
+      body: JSON.stringify(body),
     };
     return fetch(url, requestOptions)
       .then(res => res.json())
