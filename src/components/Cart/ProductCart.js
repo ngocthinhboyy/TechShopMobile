@@ -25,7 +25,7 @@ const ProductCart = ({product, navigation}) => {
       style={{backgroundColor: '#fcebc6', width: '90%', marginVertical: 20}}>
       <View style={{padding: 10, flexDirection: 'row', alignItems: 'center'}}>
         <Image
-          source={product.productImage}
+          source={{uri: product.productImage}}
           style={{width: 90, height: 90, marginRight: 20}}
         />
         <View style={{width: '47%'}}>

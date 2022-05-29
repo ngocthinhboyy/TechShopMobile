@@ -1,10 +1,26 @@
-import React, {useContext} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
-import {Icon, Button} from 'react-native-elements';
-import {OrderContext} from '../../context/orderContext';
+import React from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Button, Icon} from 'react-native-elements';
+import {OrderStatus} from '../../utilities/Constant';
+import parseImages from '../../helpers/parseImages';
+import OrderApi from '../../api/orderApi';
+import {useDispatch} from 'react-redux';
+import {getAllUserOrders} from '../../utilities/slices/userSlice';
 
 const Order = ({navigation, order}) => {
-  const {updateStatusOrder} = useContext(OrderContext);
+  const dispatch = useDispatch();
+  const updateStatusOrder = async () => {
+    return await OrderApi.updateOrderStatus(order.id)
+      .then(res => dispatch(getAllUserOrders()))
+      .catch(err => console.log(err));
+  };
+
+  const cancelOrder = async () => {
+    return await OrderApi.cancelOrder(order.id).then(res =>
+      dispatch(getAllUserOrders()),
+    );
+  };
+
   const handlePrice = price => {
     if (price !== undefined) {
       var priceFormat = '';
@@ -21,9 +37,11 @@ const Order = ({navigation, order}) => {
     return '';
   };
 
+  const images = parseImages(order.firstProduct.images);
+
   const renderButtonForOrder = order => {
-    switch (order.statusInvoice) {
-      case 'PENDING':
+    switch (order.status) {
+      case OrderStatus.PLACED_ORDER:
         return (
           <View
             style={{
@@ -49,12 +67,13 @@ const Order = ({navigation, order}) => {
                 borderWidth: 0.5,
               }}
               onPress={() => {
-                updateStatusOrder(order.invoiceID, order.statusInvoice);
+                cancelOrder(order.id);
+                navigation.navigate('Order', {tabRender: 'Cancelled'});
               }}
             />
           </View>
         );
-      case 'PICKING':
+      case OrderStatus.IN_HANDLING:
         return (
           <View
             style={{
@@ -85,135 +104,150 @@ const Order = ({navigation, order}) => {
             />
           </View>
         );
-      case 'SHIPPING':
-        return (
-          <View
-            style={{
-              width: '90%',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingVertical: 8,
-            }}>
-            <Text style={{fontSize: 12, fontWeight: '100', width: '60%'}}>
-              Confirm if you received
-            </Text>
-            <Button
-              title="Order Received"
-              titleStyle={{
-                fontSize: 12,
-                fontWeight: '400',
-                color: 'rgb(0, 153, 0)',
-              }}
-              buttonStyle={{
-                backgroundColor: 'white',
-                height: 35,
-                width: 110,
-                borderRadius: 5,
-                borderColor: 'rgb(0, 153, 0)',
-                borderWidth: 0.5,
-              }}
-              onPress={() => {
-                updateStatusOrder(order.invoiceID, order.statusInvoice);
-              }}
-            />
-          </View>
-        );
-      case 'RATING':
-        return (
-          <View
-            style={{
-              width: '90%',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingVertical: 8,
-            }}>
-            <Text style={{fontSize: 12, fontWeight: '100', width: '60%'}}>
-              Rating your experience
-            </Text>
-            <Button
-              title="Rating"
-              titleStyle={{
-                fontSize: 12,
-                fontWeight: '400',
-                color: 'rgb(0, 153, 0)',
-              }}
-              buttonStyle={{
-                backgroundColor: 'white',
-                height: 35,
-                width: 70,
-                borderRadius: 5,
-                borderColor: 'rgb(0, 153, 0)',
-                borderWidth: 0.5,
-              }}
-            />
-          </View>
-        );
-      case 'COMPLETED':
-        return (
-          <View
-            style={{
-              width: '90%',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingVertical: 8,
-            }}>
-            <Text style={{fontSize: 12, fontWeight: '100', width: '60%'}}>
-              Remove from my orders
-            </Text>
-            <Button
-              title="Remove"
-              titleStyle={{fontSize: 12, fontWeight: '400', color: 'red'}}
-              buttonStyle={{
-                backgroundColor: 'white',
-                height: 35,
-                width: 80,
-                borderRadius: 5,
-                borderColor: 'red',
-                borderWidth: 0.5,
-              }}
-              onPress={() => {
-                updateStatusOrder(order.invoiceID, order.statusInvoice);
-              }}
-            />
-          </View>
-        );
-      case 'CANCELLED':
-        return (
-          <View
-            style={{
-              width: '90%',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingVertical: 8,
-            }}>
-            <Text style={{fontSize: 12, fontWeight: '100', width: '60%'}}>
-              Buy order again
-            </Text>
-            <Button
-              title="Buy Again"
-              titleStyle={{
-                fontSize: 12,
-                fontWeight: '400',
-                color: 'rgb(0, 153, 0)',
-              }}
-              buttonStyle={{
-                backgroundColor: 'white',
-                height: 35,
-                width: 80,
-                borderRadius: 5,
-                borderColor: 'rgb(0, 153, 0)',
-                borderWidth: 0.5,
-              }}
-              onPress={() => {
-                updateStatusOrder(order.invoiceID, order.statusInvoice);
-              }}
-            />
-          </View>
-        );
+      case OrderStatus.SHIPPED:
+        if (order.statusDetail == 'Deliveried Successfully') {
+          return (
+            <View
+              style={{
+                width: '90%',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingVertical: 8,
+              }}>
+              <Text style={{fontSize: 12, fontWeight: '100', width: '60%'}}>
+                Confirm if you received
+              </Text>
+              <Button
+                title="Order Received"
+                titleStyle={{
+                  fontSize: 12,
+                  fontWeight: '400',
+                  color: 'rgb(0, 153, 0)',
+                }}
+                buttonStyle={{
+                  backgroundColor: 'white',
+                  height: 35,
+                  width: 110,
+                  borderRadius: 5,
+                  borderColor: 'rgb(0, 153, 0)',
+                  borderWidth: 0.5,
+                }}
+                onPress={() => {
+                  updateStatusOrder(order.id);
+                  navigation.navigate('Order', {tabRender: 'Completed'});
+                }}
+              />
+            </View>
+          );
+        } else {
+          return (
+            <View
+              style={{
+                width: '90%',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingVertical: 8,
+              }}>
+              <Text style={{fontSize: 12, fontWeight: '100', width: '60%'}}>
+                Your package will be delivered on time.
+              </Text>
+              <Button
+                title="Contact Us"
+                titleStyle={{
+                  fontSize: 12,
+                  fontWeight: '400',
+                  color: 'rgb(0, 153, 0)',
+                }}
+                buttonStyle={{
+                  backgroundColor: 'white',
+                  height: 35,
+                  width: 90,
+                  borderRadius: 5,
+                  borderWidth: 0.5,
+                  borderColor: 'rgb(0, 153, 0)',
+                }}
+              />
+            </View>
+          );
+        }
+      case OrderStatus.DELIVERIED:
+        if (order.statusDetail === 'Reviewed')
+          return (
+            <View
+              style={{
+                width: '90%',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingVertical: 8,
+              }}>
+              <Text style={{fontSize: 12, fontWeight: '100', width: '60%'}}>
+                Thank you for your valuable review.
+              </Text>
+              <Button
+                title="View your review"
+                titleStyle={{
+                  fontSize: 12,
+                  fontWeight: '400',
+                  color: 'rgb(0, 153, 0)',
+                }}
+                buttonStyle={{
+                  backgroundColor: 'white',
+                  height: 35,
+                  width: 120,
+                  borderRadius: 5,
+                  borderColor: 'rgb(0, 153, 0)',
+                  borderWidth: 0.5,
+                }}
+                onPress={() =>
+                  navigation.navigate('OrderDetail', {
+                    invoiceID: order.id,
+                    viewReview: true,
+                  })
+                }
+              />
+            </View>
+          );
+        else
+          return (
+            <View
+              style={{
+                width: '90%',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingVertical: 8,
+              }}>
+              <Text style={{fontSize: 12, fontWeight: '100', width: '60%'}}>
+                Rating your experience
+              </Text>
+              <Button
+                title="Review"
+                titleStyle={{
+                  fontSize: 12,
+                  fontWeight: '400',
+                  color: 'rgb(0, 153, 0)',
+                }}
+                buttonStyle={{
+                  backgroundColor: 'white',
+                  height: 35,
+                  width: 120,
+                  borderRadius: 5,
+                  borderColor: 'rgb(0, 153, 0)',
+                  borderWidth: 0.5,
+                }}
+                onPress={() =>
+                  navigation.navigate('OrderDetail', {
+                    invoiceID: order.id,
+                    viewReview: true,
+                  })
+                }
+              />
+            </View>
+          );
+
       default:
         break;
     }
@@ -237,7 +271,7 @@ const Order = ({navigation, order}) => {
               fontSize: 12,
               marginBottom: 5,
             }}>
-            {order.statusProcess}
+            {order.statusDetail}
           </Text>
         </View>
         <View
@@ -247,12 +281,12 @@ const Order = ({navigation, order}) => {
             flexDirection: 'row',
           }}>
           <Image
-            source={order.productImage}
+            source={{uri: images[0]}}
             style={{width: 55, height: 55, marginRight: 10}}
           />
           <View style={{width: '83%'}}>
             <Text style={{fontSize: 14, fontWeight: 'bold'}}>
-              {order.productName}
+              {order.firstProduct.name}
             </Text>
             <View
               style={{
@@ -265,14 +299,14 @@ const Order = ({navigation, order}) => {
                 Color: Space Gray
               </Text>
               <Text style={{fontSize: 12, fontWeight: '100'}}>
-                x{order.quantity}
+                x{order.firstProduct.name}
               </Text>
             </View>
             <View style={{width: '100%', alignItems: 'flex-end'}}>
               <View style={{flexDirection: 'row'}}>
                 <Text
                   style={{fontSize: 14, fontWeight: '300', color: '#e77733'}}>
-                  {handlePrice(order.totalPrice)}
+                  {handlePrice(order.firstProduct.total)}
                 </Text>
                 <Text
                   style={{
@@ -297,9 +331,9 @@ const Order = ({navigation, order}) => {
           paddingVertical: 6,
           backgroundColor: '#fcf6e8',
         }}
-        onPress={() =>
-          navigation.navigate('OrderDetail', {invoiceID: order.invoiceID})
-        }>
+        onPress={() => {
+          navigation.navigate('OrderDetail', {invoiceID: order.id});
+        }}>
         <Text style={{fontSize: 11, fontWeight: '100'}}>
           View more products...
         </Text>
@@ -337,7 +371,7 @@ const Order = ({navigation, order}) => {
                 fontWeight: '300',
                 color: '#e77733',
               }}>
-              {handlePrice(order.totalCost)}
+              {handlePrice(order.total)}
             </Text>
             <Text
               style={{

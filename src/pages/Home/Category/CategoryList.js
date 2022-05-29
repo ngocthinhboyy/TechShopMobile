@@ -1,21 +1,34 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import Category from '../../../components/Home/Category';
+import {getCategories} from '../../../utilities/slices/categorySlice';
 
 const CategoryList = ({navigation}) => {
+  const categoryList = useSelector(state => state.category.data);
+  const dispatch = useDispatch();
+
+  // get categories
+  useEffect(() => {
+    async function fetchCategories() {
+      await dispatch(getCategories());
+    }
+    if (!categoryList.length) {
+      fetchCategories();
+    }
+  }, [dispatch, categoryList]);
+
   return (
     <View style={styles.categoryList}>
       <View style={styles.categoryContainer}>
-        <Category category={'phone'} navigation={navigation} />
-        <Category category={'headphone'} navigation={navigation} />
-        <Category category={'console'} navigation={navigation} />
-        <Category category={'laptop'} navigation={navigation} />
+        {categoryList.slice(0, 4).map(item => (
+          <Category category={item} navigation={navigation} key={item.id}/>
+        ))}
       </View>
       <View style={styles.categoryContainer}>
-        <Category category={'smart-watch'} navigation={navigation} />
-        <Category category={'keyboard'} navigation={navigation} />
-        <Category category={'monitor'} navigation={navigation} />
-        <Category category={'mouse'} navigation={navigation} />
+        {categoryList.slice(4, 8).map(item => (
+          <Category category={item} navigation={navigation}  key={item.id}/>
+        ))}
       </View>
     </View>
   );

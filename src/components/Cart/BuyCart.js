@@ -2,13 +2,51 @@ import React, {useContext, useRef, useState} from 'react';
 import {View, Text} from 'react-native';
 import {Icon, Button} from 'react-native-elements';
 import {CartContext} from '../../context/cartContext';
-import {OrderContext} from '../../context/orderContext';
+import OrderApi from '../../api/orderApi';
+import { useDispatch } from 'react-redux';
+import {getAllUserOrders} from '../../utilities/slices/userSlice';
 
 const BuyCart = ({totalPrice, navigation}) => {
-  const placeOrderTimeoutRef = useRef(null);
   const [isDisabled, setIsDisabled] = useState(false);
   const {cartData, clearCart} = useContext(CartContext);
-  const {placeOrder} = useContext(OrderContext);
+  const dispatch = useDispatch()
+
+  const order = async () => {
+    if (isDisabled) return;
+    setIsDisabled(true);
+
+    let orderInfo = [];
+    for (let product of cartData) {
+      let tempProduct = {
+        id: product.productId,
+        quantity: product.quantity,
+      };
+      orderInfo.push(tempProduct);
+    }
+    let data = {
+      detailedInvoices: orderInfo,
+      shippingInfo: {
+        fullname: 'Phạm Ngọc Thịnh',
+        phone: '0904588091',
+        address: '207, Đường C25, Phường Tăng Nhơn Phú B',
+      },
+    };
+
+    const placeOrder = async (data) => {
+      return OrderApi.placeOrder(data)
+      .then((res) => {
+          clearCart();
+          setIsDisabled(false);
+          dispatch(getAllUserOrders());
+        })
+        .catch((err) => {
+          setIsDisabled(false);
+        });
+      };
+      await placeOrder(data);
+      navigation.navigate('Order', { tabRender: 'Pending' });
+    };
+
   const handlePrice = price => {
     if (price !== undefined) {
       var priceFormat = '';
@@ -23,52 +61,6 @@ const BuyCart = ({totalPrice, navigation}) => {
       return price.toString().concat(priceFormat);
     }
     return '';
-  };
-  const order = (totalPrice, cartData) => {
-    if (isDisabled) return;
-    setIsDisabled(true);
-
-    placeOrder({
-      order: {
-        userID: 3,
-        totalCost: totalPrice,
-        invoiceDate: '2021-06-08',
-        shippingDate: '2021-06-11',
-        note: null,
-        otherShippingAddress: true,
-        statusInvoice: 'PENDING',
-        userInvoiceIndex: 'phuongdinh1802@gmail.com0',
-
-        countItems: cartData.length,
-        quantity: cartData[0].quantity,
-        totalPrice: cartData[0].quantity * cartData[0].productPrice,
-        productName: cartData[0].productName,
-        statusProcess: 'Waiting to confirm',
-        productImage: cartData[0].productImage,
-      },
-      detail: {
-        detailedInvoices: cartData,
-        shippingInfo: {
-          fullname: 'Phạm Ngọc Thịnh',
-          phone: '(+84) 825 494 593',
-          address:
-            '207, Đường C25, Phường Tăng Nhơn Phú B, Quận 9, TP. Hồ Chí Minh',
-        },
-        email: null,
-        totalPrice: totalPrice,
-        note: null,
-        statusInvoice: 'PENDING',
-        shippingDate: '2021-06-11',
-        invoiceDate: '2021-06-08',
-      },
-    });
-    if (placeOrderTimeoutRef.current) {
-      clearTimeout(placeOrderTimeoutRef.current);
-    }
-    placeOrderTimeoutRef.current = setTimeout(() => {
-      clearCart();
-      setIsDisabled(false);
-    }, 1100);
   };
   return (
     <View
@@ -120,7 +112,7 @@ const BuyCart = ({totalPrice, navigation}) => {
             backgroundColor: `${!isDisabled ? '#e77733' : 'rgb(0,153,0)'}`,
             height: 35,
           }}
-          onPress={() => order(totalPrice, cartData)}
+          onPress={order}
         />
       </View>
     </View>

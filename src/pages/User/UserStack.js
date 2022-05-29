@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
+import { useSelector } from "react-redux";
 import Stack from '../../navigations/stack-navigator/Stack';
 import LoginScreen from '../Login/LoginScreen';
 import UserScreen from './UserScreen';
-import { AuthContext } from '../../context/authContext';
 
 const UserStack = () => {
-    const {isLoggedIn, changeLoginStatus} = useContext(AuthContext);
+  const {isLoggedIn}  = useSelector((state) => state.user.data);
   return (
     <Stack.Navigator
     screenOptions={{
@@ -15,7 +15,7 @@ const UserStack = () => {
       {!isLoggedIn ? (
         <Stack.Screen
           name="UserScreen"
-          children={() => <LoginScreen changeStatus={changeLoginStatus} />}
+          children={() => <LoginScreen />}
           options={{title: 'Order'}}
         />
       ) : (

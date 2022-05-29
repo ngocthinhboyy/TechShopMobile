@@ -6,35 +6,35 @@ const Category = ({category, navigation}) => {
   let iconName = '';
   let iconType = '';
   let categoryName = '';
-  if (category === 'phone') {
+  if (category.slug === 'smart-phone') {
     iconName = 'phone-portrait-outline';
     iconType = 'ionicon';
     categoryName = 'Phone';
-  } else if (category === 'smart-watch') {
+  } else if (category.slug === 'smart-watch') {
     iconName = 'watch-outline';
     iconType = 'ionicon';
     categoryName = 'Watch';
-  } else if (category === 'headphone') {
+  } else if (category.slug === 'headphone') {
     iconName = 'headset';
     iconType = 'ionicon';
     categoryName = 'Headphone';
-  } else if (category === 'keyboard') {
+  } else if (category.slug === 'keyboard') {
     iconName = 'keyboard';
     iconType = 'material';
     categoryName = 'Keyboard';
-  } else if (category === 'monitor') {
+  } else if (category.slug === 'monitor') {
     iconName = 'connected-tv';
     iconType = 'material';
     categoryName = 'Monitor';
-  } else if (category === 'laptop') {
+  } else if (category.slug === 'laptop') {
     iconName = 'laptop-mac';
     iconType = 'material';
     categoryName = 'Laptop';
-  } else if (category === 'mouse') {
+  } else if (category.slug === 'mouse') {
     iconName = 'mouse';
     iconType = 'material';
     categoryName = 'Mouse';
-  } else if (category === 'console') {
+  } else if (category.slug === 'pc-accessories') {
     iconName = 'sports-esports';
     iconType = 'material';
     categoryName = 'Console';
@@ -43,10 +43,10 @@ const Category = ({category, navigation}) => {
     <TouchableOpacity
       style={{alignItems: 'center'}}
       onPress={() =>
-        navigation.navigate('Product', {categoryName: categoryName})
+        navigation.navigate('Product', {slug: category.slug})
       }>
       <Icon name={iconName} type={iconType} color="black" size={45} />
-      <Text style={{color: 'black', fontSize: 12, fontWeight: '300'}}>
+      <Text style={{color: 'black', fontSize: 12, fontWeight: '300'}} numberOfLines={1}>
         {categoryName}
       </Text>
     </TouchableOpacity>

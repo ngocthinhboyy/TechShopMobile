@@ -1,67 +1,37 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import React, {Fragment, useContext, useEffect, useState} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import {SafeAreaView, Text, View} from 'react-native';
 import {Icon} from 'react-native-elements';
-import {OrderContext} from '../../context/orderContext';
+import {useDispatch, useSelector} from 'react-redux';
 import Cancelled from './OrderTabNavigate/Cancelled';
 import Completed from './OrderTabNavigate/Completed';
 import Pending from './OrderTabNavigate/Pending';
 import Picking from './OrderTabNavigate/Picking';
-import Rating from './OrderTabNavigate/Rating';
 import Shipping from './OrderTabNavigate/Shipping';
+import {getAllUserOrders} from '../../utilities/slices/userSlice';
+import Rating from './OrderTabNavigate/Rating';
 
 const Tab = createMaterialTopTabNavigator();
 
 const OrderScreen = ({navigation, route}) => {
-  const {orderData} = useContext(OrderContext);
-  
-  let orderList = orderData.listOrder;
-  const [filterOrderList, setFilterOrderList] = useState();
-  const filterOrder = orderList => {
-    let filterOrders = {
-      pendingOrderList: [],
-      pickingOrderList: [],
-      shippingOrderList: [],
-      ratingOrderList: [],
-      completedOrderList: [],
-      cancelledOrderList: [],
-    };
-    orderList.forEach(order => {
-      switch (order.statusInvoice) {
-        case 'PENDING':
-          filterOrders.pendingOrderList.push(order);
-          break;
-        case 'PICKING':
-          filterOrders.pickingOrderList.push(order);
-          break;
-        case 'SHIPPING':
-          filterOrders.shippingOrderList.push(order);
-          break;
-        case 'RATING':
-          filterOrders.ratingOrderList.push(order);
-          break;
-        case 'COMPLETED':
-          filterOrders.completedOrderList.push(order);
-          break;
-        case 'CANCELLED':
-          filterOrders.cancelledOrderList.push(order);
-          break;
-        default:
-          break;
-      }
-    });
-    setFilterOrderList(filterOrders);
-  };
+  const {listOrders} = useSelector(state => state.user.data);
+  const dispatch = useDispatch();
+
+  // get list orders
   useEffect(() => {
-    filterOrder(orderList);
-  }, [orderData]);
+    async function fetchOrders() {
+      await dispatch(getAllUserOrders());
+    }
+
+    fetchOrders();
+  }, [route]);
 
   useEffect(() => {
     if (route?.tabRender === undefined) return;
     navigation.navigate(route?.tabRender);
   }, [navigation, route]); // render lai khi 2 thang thay doi
 
-  return (
+  return listOrders ? (
     <Fragment>
       <SafeAreaView style={{backgroundColor: '#fcebc6'}}></SafeAreaView>
       <SafeAreaView
@@ -152,7 +122,7 @@ const OrderScreen = ({navigation, route}) => {
           <Tab.Screen name="Pending">
             {() => (
               <Pending
-                pendingOrderList={filterOrderList?.pendingOrderList}
+                pendingOrderList={listOrders['placed-order']}
                 navigation={navigation}
               />
             )}
@@ -160,7 +130,7 @@ const OrderScreen = ({navigation, route}) => {
           <Tab.Screen name="Picking">
             {() => (
               <Picking
-                pickingOrderList={filterOrderList?.pickingOrderList}
+                pickingOrderList={listOrders.handling}
                 navigation={navigation}
               />
             )}
@@ -168,15 +138,7 @@ const OrderScreen = ({navigation, route}) => {
           <Tab.Screen name="Shipping">
             {() => (
               <Shipping
-                shippingOrderList={filterOrderList?.shippingOrderList}
-                navigation={navigation}
-              />
-            )}
-          </Tab.Screen>
-          <Tab.Screen name="Rating">
-            {() => (
-              <Rating
-                ratingOrderList={filterOrderList?.ratingOrderList}
+                shippingOrderList={listOrders.shipped}
                 navigation={navigation}
               />
             )}
@@ -184,7 +146,15 @@ const OrderScreen = ({navigation, route}) => {
           <Tab.Screen name="Completed">
             {() => (
               <Completed
-                completedOrderList={filterOrderList?.completedOrderList}
+                completedOrderList={listOrders.deliveried}
+                navigation={navigation}
+              />
+            )}
+          </Tab.Screen>
+          <Tab.Screen name="Rating">
+            {() => (
+              <Rating
+                ratingOrderList={listOrders.rating}
                 navigation={navigation}
               />
             )}
@@ -192,7 +162,7 @@ const OrderScreen = ({navigation, route}) => {
           <Tab.Screen name="Cancelled">
             {() => (
               <Cancelled
-                cancelledOrderList={filterOrderList?.cancelledOrderList}
+                cancelledOrderList={listOrders.cancelled}
                 navigation={navigation}
               />
             )}
@@ -200,7 +170,7 @@ const OrderScreen = ({navigation, route}) => {
         </Tab.Navigator>
       </SafeAreaView>
     </Fragment>
-  );
+  ) : null;
 };
 
 OrderScreen.propTypes = {};

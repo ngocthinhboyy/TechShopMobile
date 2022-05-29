@@ -2,17 +2,19 @@ import React, { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
 
+
 const ProductImageCarousel = ({images}) => {
+  
   const [index, setIndex] = useState(0);
   const isCarousel = useRef(null);
 
-  const renderItem = ({item, index}, parallaxProps) => {
+  const renderItem = ({item}, parallaxProps) => {
     return (
       <View style={{width: 400, height: 350}}>
         <ParallaxImage
-          source={item.imgSrc}
+          source={{uri: item}}
           containerStyle={{backgroundColor: 'white', borderRadius: 8, flex: 1}}
-          style={{...StyleSheet.absoluteFillObject, resizeMode: 'cover'}}
+          style={{...StyleSheet.absoluteFillObject, resizeMode: 'contain'}}
           parallaxFactor={0.4}
           {...parallaxProps}
         />

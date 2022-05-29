@@ -1,10 +1,20 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, View} from 'react-native';
 import TopPurchasedProductCard from '../../Product/ProductCard/TopPurchasedProductCard';
-import {TopPurchasedProductListData} from '../../../Data/topPurchasedProductListData';
+import ProductApi from '../../../api/productApi';
 
 const TopPurchasedProduct = ({navigation}) => {
-  const data = TopPurchasedProductListData;
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    async function fetchTopPurchasedProducts() {
+      await ProductApi.getTopPurchasedProducts("laptop")
+      .then(res => setData(res))
+    }
+    if (!data || data.length == 0) {
+      fetchTopPurchasedProducts();
+    }
+  }, [data]);
 
   const renderProductCard = productList => {
     let renderResult = [];
