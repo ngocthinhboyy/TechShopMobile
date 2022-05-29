@@ -30,30 +30,26 @@ const ReviewApi = {
         return Promise.reject(error);
       });
   },
-  getRecommendationReviewStatus: async params => {
+
+  getRecommendationReviewStatus: async(params) => {
+    console.log(params)
     // python server
-    const body = {
-      sentences: params.map(review => review.reviewContent),
-    };
-    const url = `http://127.00.0.1:9090/comment`;
+    const url = `http://localhost:8080${UrlConstant.ADD_REVIEW}`;
     const requestOptions = {
       method: 'POST',
-      'content-type': 'application/json',
-      body: JSON.stringify({
-        sentences: ['tốt', 'không tốt'],
-      }),
+      body: {
+        sentence: params.map(review =>  review.reviewContent)
+      },
     };
     return fetch(url, requestOptions)
-      .then(res => res.json())
       .then(response => {
-        const arrStatus = response.results;
-        var i = 0;
-        const result = params.map(review => {
-          const newData = {status: arrStatus[i], ...review};
-          i += 1;
-          return newData;
-        });
-        return result;
+        const arrStatus = response.results
+        for(let i = 0; i < params.length; i++) {
+          params[i].status = arrStatus[i]
+          params = [... params[i]]
+        }
+        console.log(params)
+        return params
       })
       .catch(error => {
         return Promise.reject(error);
