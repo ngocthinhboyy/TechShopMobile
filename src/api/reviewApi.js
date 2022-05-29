@@ -40,6 +40,7 @@ const ReviewApi = {
       method: 'POST',
       'content-type': 'application/json',
       body: JSON.stringify(body),
+      
     };
     return fetch(url, requestOptions)
       .then(res => res.json())
